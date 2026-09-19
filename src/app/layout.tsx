@@ -4,7 +4,7 @@ import './globals.css';
 import { SiteHeader } from '@/components/SiteHeader';
 import { SiteFooter } from '@/components/SiteFooter';
 import { SmoothScrollProvider } from '@/components/motion/SmoothScrollProvider';
-import { FIRM_TRADING_NAME, FIRM_LEGAL_NAME, SITE_URL } from '@/config/firm';
+import { FIRM_TRADING_NAME, FIRM_LEGAL_NAME, IS_INDEXABLE, SITE_URL } from '@/config/firm';
 
 /**
  * Root layout.
@@ -78,7 +78,15 @@ export const metadata: Metadata = {
     ],
     apple: '/apple-touch-icon.png',
   },
-  robots: { index: true, follow: true },
+  /**
+   * A preview build emits `noindex, nofollow`. robots.txt alone is not
+   * enough: it asks a crawler not to fetch the page, but a URL that is linked
+   * from elsewhere can still be indexed without being fetched. The meta tag
+   * is what actually keeps the preview out of the index.
+   */
+  robots: IS_INDEXABLE
+    ? { index: true, follow: true }
+    : { index: false, follow: false },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

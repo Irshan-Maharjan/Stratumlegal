@@ -17,6 +17,13 @@ import { FIRM_SHORT, FIRM_DESCRIPTOR, FIRM_TRADING_NAME } from '@/config/firm';
  * weight, in the one container Satori accepts.
  */
 
+/**
+ * Required under `output: 'export'` — see the note in robots.ts. The image is
+ * generated once at build time and written out as a PNG, which is what a
+ * static host needs anyway.
+ */
+export const dynamic = 'force-static';
+
 export const alt = `${FIRM_TRADING_NAME} — corporate law firm in Kathmandu, Nepal`;
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';

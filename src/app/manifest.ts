@@ -5,6 +5,11 @@ import { FIRM_TRADING_NAME, FIRM_SHORT } from '@/config/firm';
  * Next's manifest file convention — reads name from config so a rename
  * propagates with no other edit, unlike a static public/site.webmanifest.
  */
+/**
+ * Required under `output: 'export'` — see the note in robots.ts.
+ */
+export const dynamic = 'force-static';
+
 export default function manifest(): MetadataRoute.Manifest {
   return {
     name: FIRM_TRADING_NAME,

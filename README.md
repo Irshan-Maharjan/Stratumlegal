@@ -29,8 +29,48 @@ To learn more about Next.js, take a look at the following resources:
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
+## Deploying to Hostinger (shared hosting)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Shared hosting serves files through Apache/LiteSpeed and cannot run Node, so
+the site is built as a **static export** (`output: 'export'` in
+`next.config.ts`). `next build` writes an `out/` directory; upload its
+**contents** — not the folder itself — into `public_html`.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+`public/.htaccess` is copied into the export automatically and handles the
+404 page, caching and the HTTPS redirect.
+
+### Preview / staging build
+
+While the site is on a temporary domain for review, pass that domain at build
+time. This keeps the sitemap, canonical tags and OG URLs pointing at the
+preview, and emits `Disallow: /` plus a `noindex, nofollow` tag so the
+preview cannot be indexed and later compete with the real domain as duplicate
+content:
+
+```bash
+NEXT_PUBLIC_SITE_URL=https://your-preview-domain.com npm run build
+```
+
+### Production build
+
+Build with no env var. `SITE_URL` falls back to `PRODUCTION_URL` in
+`src/config/firm.ts`, and indexing turns itself back on — no code change:
+
+```bash
+npm run build
+```
+
+Confirm before uploading a production build:
+
+```bash
+grep -c noindex out/index.html   # expect 0
+head -4 out/robots.txt           # expect "Allow: /"
+```
+
+### Notes
+
+- `next/image` optimisation is off (`unoptimized: true`) — it needs a server.
+  Size and compress any new image before committing it; the build will not.
+- The enquiry form at `/contact` is still a stub: it validates and fakes
+  success but sends nothing. It needs a third-party form service (Formspree,
+  Web3Forms) to work on static hosting.

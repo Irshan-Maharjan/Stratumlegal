@@ -49,8 +49,38 @@ export const CONTACT = {
   officeHours: null as string | null, // TODO(client): office hours
 } as const;
 
-/** Canonical production origin. Used for metadata, sitemap, and OG images. */
-export const SITE_URL = 'https://stratumlaw.com.np'; // TODO(client): confirm domain
+/**
+ * The firm's real, final domain. Used for metadata, sitemap and OG image URLs
+ * on a production build.
+ */
+export const PRODUCTION_URL = 'https://stratumlaw.com.np'; // TODO(client): confirm domain
+
+/**
+ * Where this particular build is being deployed.
+ *
+ * While the site is on a preview domain for the owner to review, set
+ * NEXT_PUBLIC_SITE_URL to that domain at build time:
+ *
+ *   NEXT_PUBLIC_SITE_URL=https://preview.example.com npm run build
+ *
+ * Unset, it falls back to the production domain. This matters because the
+ * sitemap, canonical tags and OG image URLs are absolute — a build that
+ * hardcodes the live domain while sitting on a preview host tells Google the
+ * wrong thing about both.
+ */
+export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? PRODUCTION_URL;
+
+/**
+ * Whether this build should be indexed by search engines.
+ *
+ * Any deployment that is not on the production domain is treated as a preview
+ * and blocked — via robots.txt and a noindex meta tag — so a staging copy
+ * cannot be indexed and later compete with the real site as duplicate
+ * content. Going live needs no code change: build without
+ * NEXT_PUBLIC_SITE_URL (or set it to PRODUCTION_URL) and indexing turns
+ * itself back on.
+ */
+export const IS_INDEXABLE = SITE_URL === PRODUCTION_URL;
 
 /**
  * The compliance disclaimer required in the footer and on /legal-notice.

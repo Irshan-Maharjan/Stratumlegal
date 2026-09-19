@@ -4,6 +4,14 @@ import { PRACTICE_AREAS } from '@/content/practice-areas';
 import { PEOPLE } from '@/content/people';
 import { PUBLICATIONS } from '@/content/publications';
 
+/**
+ * Required under `output: 'export'` — see the note in robots.ts. `lastModified`
+ * below becomes the build date rather than a request date, which is the
+ * correct semantics for a statically exported site: the content genuinely
+ * last changed when it was built.
+ */
+export const dynamic = 'force-static';
+
 const STATIC_ROUTES = [
   '',
   '/about',
