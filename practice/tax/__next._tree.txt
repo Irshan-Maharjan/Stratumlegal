@@ -1,0 +1,4 @@
+:HL["/_next/static/chunks/2yyxc8no_l9i1.css","style"]
+:HL["/_next/static/media/archivo_variable_latin-s.p.17-aodiw50953.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/_next/static/media/playfair_variable_latin-s.p.3u4lli0-axodc.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"practice","param":null,"prefetchHints":0,"slots":{"children":{"name":"slug","param":{"type":"d","key":"tax","siblings":null},"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}}}},"staleTime":300,"buildId":"B8BwDhaJ9UN0EvhsuP1Te"}

@@ -1,0 +1,42 @@
+# Apache / LiteSpeed configuration for the exported static site.
+#
+# This file sits in /public, so `next build` copies it verbatim into out/ and
+# it uploads to public_html alongside everything else.
+
+# Next writes out/404.html; without this Apache serves its own bare 404.
+ErrorDocument 404 /404.html
+
+<IfModule mod_headers.c>
+  # Hashed build assets under /_next/static are immutable: the filename
+  # changes whenever the contents do, so they can be cached indefinitely.
+  <FilesMatch "\.(js|css|woff2|ttf)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+
+  # Images are NOT content-hashed here (they are plain files in /img), so they
+  # get a day rather than a year — long enough to help, short enough that
+  # replacing a photo takes effect without a cache-busting rename.
+  <FilesMatch "\.(jpg|jpeg|png|webp|avif|ico|svg)$">
+    Header set Cache-Control "public, max-age=86400"
+  </FilesMatch>
+
+  # HTML must revalidate every time, or visitors keep seeing a stale page
+  # after a redeploy.
+  <FilesMatch "\.html$">
+    Header set Cache-Control "public, max-age=0, must-revalidate"
+  </FilesMatch>
+</IfModule>
+
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml
+  AddOutputFilterByType DEFLATE application/javascript application/json
+  AddOutputFilterByType DEFLATE image/svg+xml
+</IfModule>
+
+# Force HTTPS. Hostinger issues a free certificate; once it is active this
+# stops the site being reachable over plain http.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTPS} off
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+</IfModule>
