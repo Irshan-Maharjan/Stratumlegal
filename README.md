@@ -39,7 +39,24 @@ the site is built as a **static export** (`output: 'export'` in
 `public/.htaccess` is copied into the export automatically and handles the
 404 page, caching and the HTTPS redirect.
 
-### Preview / staging build
+### Automatic deploys from GitHub
+
+`.github/workflows/deploy.yml` builds on every push to `main` and commits the
+result to a **`deploy` branch**. Hostinger's GitHub integration must be
+pointed at `deploy`, not `main` — shared hosting copies repo files verbatim
+and never runs the build, so `main` alone would publish raw source with no
+`index.html`.
+
+Set the preview domain once, in the repo's **Settings → Secrets and variables
+→ Actions → Variables**, as a variable named `SITE_URL`. Clear that variable
+to go live on the production domain. A one-off build against a different
+origin can be run from the Actions tab via "Run workflow".
+
+The workflow fails the build if the export is missing `index.html`,
+`.htaccess`, or produces implausibly few pages, rather than publishing a
+broken tree.
+
+### Preview / staging build (local)
 
 While the site is on a temporary domain for review, pass that domain at build
 time. This keeps the sitemap, canonical tags and OG URLs pointing at the

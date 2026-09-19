@@ -1,0 +1,87 @@
+name: Build and publish static site
+
+# Hostinger shared hosting copies repo files into public_html — it does not
+# run npm install or npm run build. The built site therefore has to exist in
+# the repository for Hostinger to have anything to serve.
+#
+# Committing out/ on the main branch would put a large generated diff into
+# every commit and make merges painful, so instead this workflow builds on
+# each push and commits ONLY the build output to a separate `deploy` branch.
+# Point Hostinger's GitHub integration at `deploy`, not `main`.
+#
+# main   = source, reviewable history, no build artefacts
+# deploy = built site only, overwritten each time, never merged back
+
+on:
+  push:
+    branches: [main]
+  # Allows a rebuild from the Actions tab without pushing a commit — useful
+  # when going live, to reissue the same source as a production build.
+  workflow_dispatch:
+    inputs:
+      site_url:
+        description: >-
+          Origin this build is deployed to. Leave blank for the production
+          domain (indexable). Set a preview domain to emit noindex.
+        required: false
+        default: ''
+
+permissions:
+  contents: write
+
+concurrency:
+  # A second push while one deploy is mid-flight would race the force-push
+  # below; queue them instead.
+  group: deploy
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      # npm ci installs exactly what package-lock.json pins, and fails rather
+      # than silently resolving something newer.
+      - run: npm ci
+
+      - name: Build static export
+        env:
+          # Set the SITE_URL repository variable to the preview domain while
+          # the site is on a temporary host; clear it to go live. A manual run
+          # can override it for one build via the input above.
+          NEXT_PUBLIC_SITE_URL: ${{ github.event.inputs.site_url || vars.SITE_URL }}
+        run: npm run build
+
+      # Fail loudly rather than publishing an empty or half-written directory.
+      - name: Verify the export
+        run: |
+          test -f out/index.html || { echo "::error::out/index.html missing — the export did not produce a site"; exit 1; }
+          test -f out/.htaccess || { echo "::error::out/.htaccess missing — check public/.htaccess is committed"; exit 1; }
+          pages=$(find out -name index.html | wc -l)
+          echo "Exported $pages pages."
+          [ "$pages" -ge 10 ] || { echo "::error::only $pages pages exported, expected ~40"; exit 1; }
+          echo "--- robots.txt ---"
+          cat out/robots.txt
+
+      - name: Publish out/ to the deploy branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # Build the branch from scratch each time: the deployed tree should
+          # mirror out/ exactly, with no file lingering from an earlier build.
+          cd out
+          git init -q
+          git checkout -qb deploy
+          git add -A
+          git commit -qm "Build from ${GITHUB_SHA::7}"
+          git push -q --force "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" deploy
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
