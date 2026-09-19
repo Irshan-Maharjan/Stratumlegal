@@ -67,8 +67,13 @@ export const PRODUCTION_URL = 'https://stratumlaw.com.np'; // TODO(client): conf
  * sitemap, canonical tags and OG image URLs are absolute — a build that
  * hardcodes the live domain while sitting on a preview host tells Google the
  * wrong thing about both.
+ *
+ * `||` rather than `??` is deliberate: CI passes this through from a
+ * repository variable, and an unset variable arrives as an empty string, not
+ * as undefined. `??` would keep that empty string and hand `new URL('')` to
+ * metadataBase, which throws ERR_INVALID_URL at build time.
  */
-export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? PRODUCTION_URL;
+export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || PRODUCTION_URL;
 
 /**
  * Whether this build should be indexed by search engines.
