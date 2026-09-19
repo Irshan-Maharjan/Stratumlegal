@@ -72,14 +72,17 @@ jobs:
 
       - name: Publish out/ to the deploy branch
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
           # Build the branch from scratch each time: the deployed tree should
           # mirror out/ exactly, with no file lingering from an earlier build.
           cd out
           git init -q
           git checkout -qb deploy
+
+          # Identity must be set on THIS repo, after `git init` — the fresh
+          # repo inside out/ inherits nothing from the checkout above.
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
           git add -A
           git commit -qm "Build from ${GITHUB_SHA::7}"
           git push -q --force "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" deploy
