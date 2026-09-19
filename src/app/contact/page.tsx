@@ -4,12 +4,12 @@ import { Eyebrow } from '@/components/Eyebrow';
 import { EnquiryForm } from '@/components/EnquiryForm';
 import { ContactChannels, OfficeAddress } from '@/components/ContactChannels';
 import { TodoClient } from '@/components/TodoClient';
-import { CONTACT } from '@/config/firm';
+import { CONTACT, FIRM_TRADING_NAME } from '@/config/firm';
 import { orderedPracticeAreas } from '@/content/practice-areas';
 
 export const metadata: Metadata = {
   title: 'Contact',
-  description: 'Contact Stratum Legal in Kathmandu — phone, Viber, WhatsApp, email, and enquiry form.',
+  description: `Contact ${FIRM_TRADING_NAME} in Kathmandu — phone, Viber, WhatsApp, email, and enquiry form.`,
 };
 
 export default function ContactPage() {
@@ -21,7 +21,7 @@ export default function ContactPage() {
         <Eyebrow tone="accent">Contact</Eyebrow>
         <h1
           className="mt-6 font-display text-display-2 leading-[1.02] text-paper md:text-display-1 md:leading-[0.94]"
-          style={{ fontWeight: 300, letterSpacing: '-0.035em', fontVariationSettings: "'opsz' 72" }}
+          style={{ fontWeight: 800, letterSpacing: '-0.03em' }}
         >
           Get in touch
         </h1>

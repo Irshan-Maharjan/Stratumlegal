@@ -94,7 +94,7 @@ export function EnquiryForm({ matterTypes }: EnquiryFormProps) {
         className="border border-line bg-ink-100 p-8"
         style={{ borderRadius: 'var(--radius-sm)' }}
       >
-        <h3 className="font-display text-h2 text-paper" style={{ fontWeight: 300 }}>
+        <h3 className="font-display text-h2 text-paper" style={{ fontWeight: 800 }}>
           Enquiry sent
         </h3>
         <p className="mt-3 max-w-(--container-measure) text-body-sm text-paper-2">

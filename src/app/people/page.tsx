@@ -2,14 +2,15 @@ import type { Metadata } from 'next';
 import { Section } from '@/components/Section';
 import { Eyebrow } from '@/components/Eyebrow';
 import { PersonCard } from '@/components/PersonCard';
-import { Strata } from '@/components/Strata';
+import { Rule } from '@/components/Rule';
 import { PEOPLE } from '@/content/people';
 import { getPracticeArea } from '@/content/practice-areas';
+import { FIRM_TRADING_NAME } from '@/config/firm';
 
 export const metadata: Metadata = {
   title: 'People',
   description:
-    'The lawyers at Stratum Legal: names, designations, Bar Council licence numbers, and areas of practice.',
+    `The lawyers at ${FIRM_TRADING_NAME}: names, designations, Bar Council licence numbers, and areas of practice.`,
 };
 
 export default function PeoplePage() {
@@ -19,7 +20,7 @@ export default function PeoplePage() {
         <Eyebrow tone="accent">People</Eyebrow>
         <h1
           className="mt-6 font-display text-display-2 leading-[1.02] text-paper md:text-display-1 md:leading-[0.94]"
-          style={{ fontWeight: 300, letterSpacing: '-0.035em', fontVariationSettings: "'opsz' 72" }}
+          style={{ fontWeight: 800, letterSpacing: '-0.03em' }}
         >
           The people
         </h1>
@@ -28,7 +29,7 @@ export default function PeoplePage() {
           at the firm, their designations, and their areas of practice.
         </p>
         <div className="mt-16">
-          <Strata variant="strata" density={5} className="h-16 w-full opacity-60" />
+          <Rule weight="hi" />
         </div>
       </Section>
 

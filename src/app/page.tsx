@@ -1,13 +1,13 @@
 import Link from 'next/link';
 import { Section } from '@/components/Section';
-import { Strata } from '@/components/Strata';
 import { Eyebrow } from '@/components/Eyebrow';
-import { LinkRow } from '@/components/LinkRow';
 import { PersonCard } from '@/components/PersonCard';
 import { PublicationCard } from '@/components/PublicationCard';
 import { ContactChannels, OfficeAddress } from '@/components/ContactChannels';
-import { StratumSeal } from '@/components/brand/Seal';
-import { HeroGate } from '@/components/motion/HeroGate';
+import { TrustBand } from '@/components/TrustBand';
+import { Figure } from '@/components/media/Figure';
+import { Hero } from '@/components/motion/Hero';
+import { PinnedPractice } from '@/components/motion/PinnedPractice';
 import { ScrollReveal } from '@/components/motion/ScrollReveal';
 import { CONTACT, FIRM_TRADING_NAME } from '@/config/firm';
 import { getPracticeArea, orderedPracticeAreas } from '@/content/practice-areas';
@@ -15,11 +15,19 @@ import { PEOPLE } from '@/content/people';
 import { PUBLICATIONS } from '@/content/publications';
 
 /**
- * Home. Six sections per the brief, in order: hero, what we do, the firm
- * briefly, people, recent publications, contact block. No stat counters, no
- * imagery of scales/gavels/courthouses/handshakes beyond the seal itself
- * (which the client asked to be used sitewide as the primary mark), and no
- * urgency language anywhere.
+ * Home.
+ *
+ * Sequence: animated hero, pinned practice walk-through, reversed trust band,
+ * the firm briefly, people, publications, contact.
+ *
+ * The motion here is doing a job, not decorating: the hero states who the
+ * firm is while the mark draws, the pinned section makes a visitor read every
+ * practice area instead of skimming, and the trust band is the one reversed
+ * panel on the site, so it lands as a deliberate change of register.
+ *
+ * No imagery of gavels, courthouses or handshakes, and no urgency language —
+ * both read wrong to a general counsel, and the second is restricted under
+ * Nepal Bar Council advertising rules.
  */
 
 export default function HomePage() {
@@ -29,52 +37,16 @@ export default function HomePage() {
 
   return (
     <>
-      {/* 1. Hero — the load sequence resolves into exactly this composition. */}
-      <HeroGate>
-        <Section rhythm="lg" index="00" railLabel="Home" as="header" className="pt-20 md:pt-28">
-          <div className="flex flex-col items-start gap-10 md:flex-row md:items-center md:gap-16">
-            <StratumSeal
-              ringColor="var(--color-brass)"
-              emblemColor="var(--color-paper)"
-              className="h-28 w-28 shrink-0 md:h-40 md:w-40"
-            />
+      <Hero />
+
+      {/* Practice — pinned on wide screens, a plain list everywhere else. */}
+      <section className="py-(--spacing-section-md)">
+        <div className="mx-auto mb-12 w-full max-w-(--container-shell) px-5 md:px-8">
+          <div className="flex flex-wrap items-baseline justify-between gap-4">
             <div>
-              <Eyebrow tone="accent">Kathmandu, Nepal</Eyebrow>
-              <h1
-                className="mt-5 font-display text-display-2 leading-[1.02] text-paper md:text-display-1 md:leading-[0.94]"
-                style={{ fontWeight: 300, letterSpacing: '-0.035em', fontVariationSettings: "'opsz' 72" }}
-              >
-                {FIRM_TRADING_NAME}
-              </h1>
-              <p className="mt-7 max-w-(--container-measure) font-display text-body-lg text-paper-2">
-                Corporate and commercial law for foreign investors, financial institutions,
-                and energy and infrastructure developers in Nepal.
-              </p>
-              <div className="mt-9">
-                <Link
-                  href="/contact"
-                  className="inline-block border border-line-hi px-6 py-3 text-body-sm text-paper transition-colors duration-(--duration-hover) hover:border-brass"
-                  style={{ borderRadius: 'var(--radius-sm)' }}
-                >
-                  Start a conversation
-                </Link>
-              </div>
+              <Eyebrow tone="accent">What we do</Eyebrow>
+              <h2 className="mt-4 font-display text-h1">Practice areas</h2>
             </div>
-          </div>
-
-          <div className="mt-20 md:mt-28">
-            <Strata variant="strata" density={7} className="h-24 w-full opacity-60" />
-          </div>
-        </Section>
-      </HeroGate>
-
-      {/* 2. What we do */}
-      <ScrollReveal>
-        <Section rhythm="lg" index="01" railLabel="Practice">
-          <div className="mb-10 flex flex-wrap items-baseline justify-between gap-4">
-            <h2 className="font-display text-h1 text-paper" style={{ letterSpacing: '-0.022em' }}>
-              What we do
-            </h2>
             <Link
               href="/practice"
               className="text-body-sm text-paper-2 transition-colors duration-(--duration-hover) hover:text-paper"
@@ -82,55 +54,71 @@ export default function HomePage() {
               All practice areas →
             </Link>
           </div>
-          <div>
-            {areas.map((area, i) => (
-              <LinkRow
-                key={area.slug}
-                href={`/practice/${area.slug}`}
-                index={String(i + 1).padStart(2, '0')}
-                label={area.title}
-                description={area.summary}
-              />
-            ))}
-          </div>
-        </Section>
-      </ScrollReveal>
+        </div>
+        <PinnedPractice
+          areas={areas.map((a) => ({ slug: a.slug, title: a.title, summary: a.summary }))}
+        />
+      </section>
 
-      {/* 3. The firm, briefly */}
+      {/* A full-bleed band of rock strata, sitting immediately above the
+          reversed panel so the page steps ground → photograph → ink rather
+          than jumping straight from white to black. */}
+      <Figure
+        src="/img/strata-band.jpg"
+        alt="Horizontal bands of layered rock, photographed in black and white"
+        width={2000}
+        height={900}
+        sizes="100vw"
+        parallax={16}
+        className="h-[38vh] w-full md:h-[52vh]"
+      />
+
+      <TrustBand />
+
+      {/* The firm, briefly */}
       <ScrollReveal>
-        <Section rhythm="md" index="02" railLabel="Firm" measure>
-          <h2 className="font-display text-h1 text-paper" style={{ letterSpacing: '-0.022em' }}>
-            The firm, briefly
-          </h2>
-          <div className="mt-8 space-y-5 font-display text-body-lg text-paper-2">
-            <p>
-              {FIRM_TRADING_NAME} advises corporate clients on Nepali law — foreign
-              investment approval, company formation, banking and security, and the
-              regulatory frameworks governing energy and infrastructure projects.
-            </p>
-            <p>
-              Criminal and white-collar litigation is a real but secondary practice,
-              handled separately from the firm&rsquo;s corporate work.
-            </p>
-          </div>
-          <div className="mt-8">
-            <Link
-              href="/about"
-              className="text-body-sm text-paper underline decoration-line-hi underline-offset-4 transition-colors duration-(--duration-hover) hover:decoration-brass"
-            >
-              More about the firm →
-            </Link>
+        <Section rhythm="md" index="02" railLabel="Firm">
+          <div className="grid gap-12 lg:grid-cols-2 lg:items-center lg:gap-20">
+            <div>
+              <h2 className="font-display text-h1">The firm, briefly</h2>
+              <div className="mt-8 max-w-(--container-measure) space-y-5 text-body-lg text-paper-2">
+                <p>
+                  {FIRM_TRADING_NAME} advises corporate clients on Nepali law — foreign
+                  investment approval, company formation, banking and security, and the
+                  regulatory frameworks governing energy and infrastructure projects.
+                </p>
+                <p>
+                  Criminal and white-collar litigation is a real but secondary practice,
+                  handled separately from the firm&rsquo;s corporate work.
+                </p>
+              </div>
+              <div className="mt-8">
+                <Link
+                  href="/about"
+                  className="text-body-sm text-paper underline decoration-line-hi underline-offset-4 transition-colors duration-(--duration-hover) hover:decoration-brass"
+                >
+                  More about the firm →
+                </Link>
+              </div>
+            </div>
+
+            <Figure
+              src="/img/strata-hero.jpg"
+              alt="A cliff face of tilted rock layers, photographed in black and white"
+              width={1800}
+              height={1500}
+              sizes="(max-width: 1024px) 100vw, 45vw"
+              className="aspect-[4/3] w-full"
+            />
           </div>
         </Section>
       </ScrollReveal>
 
-      {/* 4. People */}
+      {/* People */}
       <ScrollReveal>
         <Section rhythm="lg" index="03" railLabel="People">
           <div className="mb-10 flex flex-wrap items-baseline justify-between gap-4">
-            <h2 className="font-display text-h1 text-paper" style={{ letterSpacing: '-0.022em' }}>
-              People
-            </h2>
+            <h2 className="font-display text-h1">People</h2>
             <Link
               href="/people"
               className="text-body-sm text-paper-2 transition-colors duration-(--duration-hover) hover:text-paper"
@@ -153,13 +141,11 @@ export default function HomePage() {
         </Section>
       </ScrollReveal>
 
-      {/* 5. Recent publications */}
+      {/* Recent publications */}
       <ScrollReveal>
         <Section rhythm="md" index="04" railLabel="Reading">
           <div className="mb-2 flex flex-wrap items-baseline justify-between gap-4">
-            <h2 className="font-display text-h1 text-paper" style={{ letterSpacing: '-0.022em' }}>
-              Recent publications
-            </h2>
+            <h2 className="font-display text-h1">Recent publications</h2>
             <Link
               href="/publications"
               className="text-body-sm text-paper-2 transition-colors duration-(--duration-hover) hover:text-paper"
@@ -180,12 +166,10 @@ export default function HomePage() {
         </Section>
       </ScrollReveal>
 
-      {/* 6. Contact block */}
+      {/* Contact */}
       <ScrollReveal>
         <Section rhythm="lg" index="05" railLabel="Contact">
-          <h2 className="font-display text-h1 text-paper" style={{ letterSpacing: '-0.022em' }}>
-            Get in touch
-          </h2>
+          <h2 className="font-display text-h1">Get in touch</h2>
           <div className="mt-10 grid grid-cols-1 gap-12 lg:grid-cols-3">
             <div>
               <Eyebrow as="div">Office</Eyebrow>
@@ -209,7 +193,6 @@ export default function HomePage() {
               <Link
                 href="/contact"
                 className="mt-4 inline-block border border-line-hi px-5 py-2.5 text-body-sm text-paper transition-colors duration-(--duration-hover) hover:border-brass"
-                style={{ borderRadius: 'var(--radius-sm)' }}
               >
                 Go to contact
               </Link>

@@ -57,7 +57,7 @@ export function PublicationCard({
         aria-hidden="true"
         className={[
           'pointer-events-none absolute bottom-[-1px] left-0 h-px w-full origin-left',
-          'scale-x-0 transition-transform duration-(--duration-hover) ease-(--ease-strata)',
+          'scale-x-0 transition-transform duration-(--duration-hover) ease-(--ease-standard)',
           'group-hover:scale-x-100 group-focus-visible:scale-x-100',
         ].join(' ')}
         style={{ backgroundColor: 'var(--color-brass)' }}
@@ -88,10 +88,10 @@ export function PublicationCard({
       <Heading
         className={[
           'mt-3 max-w-(--container-measure) font-display text-h3 leading-snug text-paper md:text-h2',
-          'transition-transform duration-(--duration-hover) ease-(--ease-strata)',
+          'transition-transform duration-(--duration-hover) ease-(--ease-standard)',
           'group-hover:translate-x-[2px] group-focus-visible:translate-x-[2px]',
         ].join(' ')}
-        style={{ fontWeight: 400, letterSpacing: '-0.015em' }}
+        style={{ fontWeight: 500, letterSpacing: '-0.015em' }}
       >
         {title}
       </Heading>

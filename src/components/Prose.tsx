@@ -3,15 +3,14 @@ import type { ReactNode } from 'react';
 /**
  * <Prose> — article typography.
  *
- * Publications invert to the paper ground (see [data-surface='paper'] in
- * globals.css). Long-form legal analysis on near-black is measurably worse to
- * read, the firm's credibility rests on these pieces actually being read, and
- * the strata motif becomes literal ruled lines on paper in exactly the section
- * where that reading applies. Same tokens, remapped — no new values.
+ * The site is a single light ground throughout (Ground #F3F2F2), so
+ * publications no longer invert to a separate "paper" surface — they render
+ * on the same default tokens as every other page. See the removed
+ * [data-surface='paper'] override in globals.css for why.
  *
- * Measure is capped at --container-measure (65ch, ~68 rendered characters in
- * Newsreader at 19px). Body is Newsreader, not the UI sans: a publications-led
- * firm reads long-form in a serif and keeps the sans for chrome.
+ * Measure is capped at --container-measure (65ch, ~68 rendered characters).
+ * Body copy uses Archivo — the brand has no serif companion, so long-form and
+ * UI text share one typeface throughout.
  *
  * Styling is applied via descendant selectors rather than per-element classes
  * because the content arrives from MDX as plain HTML elements.

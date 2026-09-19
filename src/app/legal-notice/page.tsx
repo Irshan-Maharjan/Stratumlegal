@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import { Section } from '@/components/Section';
 import { Eyebrow } from '@/components/Eyebrow';
 import { Rule } from '@/components/Rule';
-import { StratumSeal } from '@/components/brand/Seal';
 import { DISCLAIMER, FIRM_LEGAL_NAME, FIRM_TRADING_NAME } from '@/config/firm';
 
 export const metadata: Metadata = {
@@ -14,15 +13,10 @@ export default function LegalNoticePage() {
   return (
     <>
       <Section rhythm="md" index="01" railLabel="Legal" as="header">
-        <StratumSeal
-          ringColor="var(--color-brass)"
-          emblemColor="var(--color-paper)"
-          className="mb-8 h-16 w-16 opacity-90"
-        />
         <Eyebrow tone="accent">Legal notice</Eyebrow>
         <h1
           className="mt-6 font-display text-display-2 leading-[1.05] text-paper"
-          style={{ fontWeight: 300, letterSpacing: '-0.03em', fontVariationSettings: "'opsz' 48" }}
+          style={{ fontWeight: 800, letterSpacing: '-0.03em' }}
         >
           Disclaimer &amp; privacy
         </h1>

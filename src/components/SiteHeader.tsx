@@ -4,8 +4,8 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { NAV_ITEMS } from '@/config/nav';
-import { CONTACT, FIRM_TRADING_NAME, digitsOnly } from '@/config/firm';
-import { StratumSeal } from './brand/Seal';
+import { CONTACT, FIRM_DESCRIPTOR, digitsOnly } from '@/config/firm';
+import { LogoMark, Wordmark } from '@/components/brand/Logo';
 
 /**
  * <SiteHeader>
@@ -20,6 +20,11 @@ import { StratumSeal } from './brand/Seal';
  * One quiet contact affordance: the telephone number, not a "Book a free
  * consultation" button. Urgency language is prohibited by the Bar Council rules
  * and would read wrong to a general counsel regardless.
+ *
+ * Brand mark: the square scales mark (the client's own artwork) beside the
+ * wordmark set in Playfair, with "LAW ASSOCIATES" as a small
+ * descriptor beside it. The header uses the compact one-line form; the footer
+ * uses the fuller two-line lockup with the rule between name and descriptor.
  */
 
 export function SiteHeader() {
@@ -67,16 +72,18 @@ export function SiteHeader() {
           className="flex shrink-0 items-center gap-3 text-paper transition-opacity duration-(--duration-hover) hover:opacity-80"
           aria-label="Home"
         >
-          <StratumSeal
-            ringColor="var(--color-brass)"
-            emblemColor="var(--color-paper)"
-            className="h-9 w-9 shrink-0 md:h-10 md:w-10"
-          />
-          <span
-            className="font-display whitespace-nowrap text-[1.05rem] md:text-[1.15rem]"
-            style={{ fontWeight: 300, fontVariationSettings: "'opsz' 32", letterSpacing: '-0.022em' }}
-          >
-            {FIRM_TRADING_NAME}
+          <LogoMark priority className="h-9 w-auto md:h-10" />
+          <span className="flex flex-col justify-center">
+            <Wordmark
+              aria-hidden="true"
+              className="whitespace-nowrap text-[1.1rem] leading-none tracking-[0.07em] md:text-[1.2rem]"
+            />
+            <span
+              className="hidden whitespace-nowrap font-sans leading-none text-paper-3 uppercase md:block"
+              style={{ fontWeight: 500, letterSpacing: '0.26em', fontSize: '0.5rem' }}
+            >
+              {FIRM_DESCRIPTOR}
+            </span>
           </span>
         </Link>
 
@@ -96,7 +103,7 @@ export function SiteHeader() {
                 <span
                   aria-hidden="true"
                   className="absolute -bottom-0.5 left-0 h-px w-full"
-                  style={{ backgroundColor: 'var(--color-brass)' }}
+                  style={{ backgroundColor: 'var(--color-paper)' }}
                 />
               )}
             </Link>

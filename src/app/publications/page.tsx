@@ -1,15 +1,16 @@
 import type { Metadata } from 'next';
 import { Section } from '@/components/Section';
 import { Eyebrow } from '@/components/Eyebrow';
-import { Strata } from '@/components/Strata';
+import { Rule } from '@/components/Rule';
 import { PUBLICATIONS } from '@/content/publications';
 import { PRACTICE_AREAS } from '@/content/practice-areas';
 import { PublicationsFilter } from './PublicationsFilter';
+import { FIRM_TRADING_NAME } from '@/config/firm';
 
 export const metadata: Metadata = {
   title: 'Publications',
   description:
-    'Analysis of Nepali statutes, regulatory change, and issues of public concern, from Stratum Legal.',
+    `Analysis of Nepali statutes, regulatory change, and issues of public concern, from ${FIRM_TRADING_NAME}.`,
 };
 
 export default function PublicationsPage() {
@@ -25,7 +26,7 @@ export default function PublicationsPage() {
         <Eyebrow tone="accent">Publications</Eyebrow>
         <h1
           className="mt-6 font-display text-display-2 leading-[1.02] text-paper md:text-display-1 md:leading-[0.94]"
-          style={{ fontWeight: 300, letterSpacing: '-0.035em', fontVariationSettings: "'opsz' 72" }}
+          style={{ fontWeight: 800, letterSpacing: '-0.03em' }}
         >
           Publications
         </h1>
@@ -35,7 +36,7 @@ export default function PublicationsPage() {
           handled, but by writing plainly about the law.
         </p>
         <div className="mt-14">
-          <Strata variant="rules" density={7} className="h-16 w-full opacity-50" />
+          <Rule weight="hi" />
         </div>
       </Section>
 

@@ -15,9 +15,8 @@ import type { ReactNode } from 'react';
  *   3. the label shifts 2px right
  * No shadow, no fill change, no scale. 180ms, transform and opacity only.
  *
- * The rows sit at strata intervals rather than uniform spacing, so the list
- * itself is the motif — the divider between rows IS a strata line. That is why
- * the motif is structural here rather than a decorative element layered on top.
+ * Row dividers are plain hairlines (--color-line) — the old build's "strata"
+ * line-motif is gone; a row separator is just a rule now.
  */
 
 type LinkRowProps = {
@@ -50,7 +49,7 @@ export function LinkRow({ href, label, index, description, meta, className }: Li
         aria-hidden="true"
         className={[
           'pointer-events-none absolute bottom-[-1px] left-0 h-px w-full origin-left',
-          'scale-x-0 transition-transform duration-(--duration-hover) ease-(--ease-strata)',
+          'scale-x-0 transition-transform duration-(--duration-hover) ease-(--ease-standard)',
           'group-hover:scale-x-100 group-focus-visible:scale-x-100',
         ].join(' ')}
         style={{ backgroundColor: 'var(--color-brass)' }}
@@ -67,10 +66,10 @@ export function LinkRow({ href, label, index, description, meta, className }: Li
           <span
             className={[
               'block font-display text-h2 leading-tight text-paper',
-              'transition-transform duration-(--duration-hover) ease-(--ease-strata)',
+              'transition-transform duration-(--duration-hover) ease-(--ease-standard)',
               'group-hover:translate-x-[2px] group-focus-visible:translate-x-[2px]',
             ].join(' ')}
-            style={{ fontVariationSettings: "'opsz' 24", letterSpacing: '-0.015em' }}
+            style={{ fontWeight: 800, letterSpacing: '-0.015em' }}
           >
             {label}
           </span>

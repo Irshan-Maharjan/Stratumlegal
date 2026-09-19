@@ -70,34 +70,17 @@ export default async function PersonPage({
                 alt={person.fullName ?? ''}
                 fill
                 sizes="256px"
-                className="object-cover object-top"
-                style={{ filter: 'saturate(0.72) contrast(1.04)' }}
+                className="object-cover object-top grayscale"
               />
             ) : (
-              <span aria-hidden="true" className="absolute inset-0 flex items-end p-4">
-                <svg viewBox="0 0 100 60" preserveAspectRatio="none" className="block h-20 w-full">
-                  {[0, 14, 26, 36, 44].map((y, i) => (
-                    <line
-                      key={y}
-                      x1="0"
-                      y1={y}
-                      x2="100"
-                      y2={y}
-                      stroke="var(--color-line-strata)"
-                      strokeWidth="1"
-                      vectorEffect="non-scaling-stroke"
-                      opacity={0.9 - i * 0.13}
-                    />
-                  ))}
-                </svg>
-              </span>
+              <span aria-hidden="true" className="absolute inset-0" />
             )}
           </div>
 
           <div>
             <h1
               className="font-display text-display-2 leading-[1.05] text-paper"
-              style={{ fontWeight: 300, letterSpacing: '-0.03em', fontVariationSettings: "'opsz' 48" }}
+              style={{ fontWeight: 800, letterSpacing: '-0.03em' }}
             >
               {person.fullName ?? <TodoClient>lawyer full name</TodoClient>}
             </h1>

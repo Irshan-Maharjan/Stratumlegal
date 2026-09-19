@@ -13,8 +13,8 @@ export default function manifest(): MetadataRoute.Manifest {
       { src: '/android-chrome-192x192.png', sizes: '192x192', type: 'image/png' },
       { src: '/android-chrome-512x512.png', sizes: '512x512', type: 'image/png' },
     ],
-    theme_color: '#080a0d',
-    background_color: '#080a0d',
+    theme_color: '#201e1d',
+    background_color: '#f3f2f2',
     display: 'standalone',
   };
 }

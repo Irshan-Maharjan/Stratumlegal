@@ -3,11 +3,12 @@ import { Section } from '@/components/Section';
 import { Eyebrow } from '@/components/Eyebrow';
 import { LinkRow } from '@/components/LinkRow';
 import { orderedPracticeAreas } from '@/content/practice-areas';
+import { FIRM_TRADING_NAME } from '@/config/firm';
 
 export const metadata: Metadata = {
   title: 'Practice areas',
   description:
-    'Foreign direct investment, corporate and commercial, banking and finance, energy and infrastructure, and other areas of practice at Stratum Legal in Kathmandu.',
+    `Foreign direct investment, corporate and commercial, banking and finance, energy and infrastructure, and other areas of practice at ${FIRM_TRADING_NAME} in Kathmandu.`,
 };
 
 export default function PracticePage() {
@@ -19,7 +20,7 @@ export default function PracticePage() {
         <Eyebrow tone="accent">Practice areas</Eyebrow>
         <h1
           className="mt-6 font-display text-display-2 leading-[1.02] text-paper md:text-display-1 md:leading-[0.94]"
-          style={{ fontWeight: 300, letterSpacing: '-0.035em', fontVariationSettings: "'opsz' 72" }}
+          style={{ fontWeight: 800, letterSpacing: '-0.03em' }}
         >
           What we do
         </h1>

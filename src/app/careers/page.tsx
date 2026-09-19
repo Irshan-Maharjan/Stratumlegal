@@ -2,14 +2,13 @@ import type { Metadata } from 'next';
 import { Section } from '@/components/Section';
 import { Eyebrow } from '@/components/Eyebrow';
 import { Rule } from '@/components/Rule';
-import { Strata } from '@/components/Strata';
 import { TodoClient } from '@/components/TodoClient';
 import { ROLES } from '@/content/roles';
-import { CONTACT } from '@/config/firm';
+import { CONTACT, FIRM_TRADING_NAME } from '@/config/firm';
 
 export const metadata: Metadata = {
   title: 'Careers',
-  description: 'Open roles and internship applications at Stratum Legal in Kathmandu.',
+  description: `Open roles and internship applications at ${FIRM_TRADING_NAME} in Kathmandu.`,
 };
 
 export default function CareersPage() {
@@ -19,7 +18,7 @@ export default function CareersPage() {
         <Eyebrow tone="accent">Careers</Eyebrow>
         <h1
           className="mt-6 font-display text-display-2 leading-[1.02] text-paper md:text-display-1 md:leading-[0.94]"
-          style={{ fontWeight: 300, letterSpacing: '-0.035em', fontVariationSettings: "'opsz' 72" }}
+          style={{ fontWeight: 800, letterSpacing: '-0.03em' }}
         >
           Work with us
         </h1>
@@ -27,7 +26,7 @@ export default function CareersPage() {
           Open roles for lawyers and internships for students and recent graduates.
         </p>
         <div className="mt-14">
-          <Strata variant="strata" density={5} className="h-16 w-full opacity-50" />
+          <Rule weight="hi" />
         </div>
       </Section>
 
@@ -47,7 +46,7 @@ export default function CareersPage() {
               </div>
               <h3
                 className="mt-3 font-display text-h2 text-paper"
-                style={{ fontWeight: 400, letterSpacing: '-0.015em' }}
+                style={{ fontWeight: 500, letterSpacing: '-0.015em' }}
               >
                 {role.title}
               </h3>

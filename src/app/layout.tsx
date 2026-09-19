@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import localFont from 'next/font/local';
 import './globals.css';
 import { SiteHeader } from '@/components/SiteHeader';
 import { SiteFooter } from '@/components/SiteFooter';
@@ -17,10 +18,40 @@ import { FIRM_TRADING_NAME, FIRM_LEGAL_NAME, SITE_URL } from '@/config/firm';
  * unless this attribute is present, and without it a navigation would land
  * mid-page having smooth-scrolled there.
  *
- * Fonts are self-hosted via @font-face in globals.css rather than next/font,
- * so the woff2 files can be subset and served from /public with no per-route
- * font CSS injection.
+ * Playfair Display (display) and Archivo (body/UI) mirror the logo lockup:
+ * a high-contrast classical serif wordmark over a spaced sans descriptor.
+ *
+ * Both are self-hosted via next/font/local rather than next/font/google.
+ * next/font/google's build-time fetch to fonts.gstatic.com hangs indefinitely
+ * in this environment (no timeout in production builds — see
+ * next/dist/compiled/@next/font/dist/google/fetch-resource.js — and isolated
+ * probes of the same Google Fonts endpoints succeed outside of Turbopack's own
+ * font-loader integration, so the hang is specific to that code path here, not
+ * a general network block). next/font/local sidesteps it entirely while still
+ * self-hosting with zero runtime requests, so src/fonts/archivo-variable-latin.woff2
+ * (the same file Google's CSS API would have served, fetched once via curl) is
+ * checked in and loaded locally. It's the single variable-weight Latin file —
+ * one file covers weights 400/500/800, matching next/font/google's own
+ * recommendation to prefer variable fonts. Exposed as the --font-archivo CSS
+ * variable (wired into --font-display/--font-sans in globals.css) rather than
+ * a `.className`, so both display and UI text can reference the same variable
+ * without importing the font object everywhere. JetBrains Mono stays
+ * self-hosted via @font-face in globals.css, unchanged.
  */
+
+const archivo = localFont({
+  src: '../fonts/archivo-variable-latin.woff2',
+  weight: '400 800',
+  display: 'swap',
+  variable: '--font-archivo',
+});
+
+const playfair = localFont({
+  src: '../fonts/playfair-variable-latin.woff2',
+  weight: '400 900',
+  display: 'swap',
+  variable: '--font-playfair',
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -52,28 +83,15 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" data-scroll-behavior="smooth" className="h-full">
-      <head>
-        {/* The two faces used above the fold. Preloaded to avoid a swap flash. */}
-        <link
-          rel="preload"
-          href="/fonts/instrument-sans-latin.woff2"
-          as="font"
-          type="font/woff2"
-          crossOrigin="anonymous"
-        />
-        <link
-          rel="preload"
-          href="/fonts/newsreader-latin.woff2"
-          as="font"
-          type="font/woff2"
-          crossOrigin="anonymous"
-        />
-      </head>
+    <html
+      lang="en"
+      data-scroll-behavior="smooth"
+      className={`h-full ${archivo.variable} ${playfair.variable}`}
+    >
       <body className="flex min-h-full flex-col antialiased">
         <a
           href="#main"
-          className="sr-only rounded-sm border border-brass bg-ink-200 px-4 py-2 text-body-sm text-paper focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-[100]"
+          className="sr-only border border-brass bg-ink-200 px-4 py-2 text-body-sm text-paper focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-[100]"
         >
           Skip to content
         </a>

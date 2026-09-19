@@ -2,9 +2,7 @@ import type { Metadata } from 'next';
 import { Section } from '@/components/Section';
 import { Eyebrow, DataValue } from '@/components/Eyebrow';
 import { Rule } from '@/components/Rule';
-import { Strata } from '@/components/Strata';
 import { TodoClient } from '@/components/TodoClient';
-import { StratumSeal } from '@/components/brand/Seal';
 import { CONTACT, FIRM_LEGAL_NAME, FIRM_TRADING_NAME, REGISTRATION } from '@/config/firm';
 import { PEOPLE } from '@/content/people';
 
@@ -21,12 +19,12 @@ export default function AboutPage() {
         <Eyebrow tone="accent">About the firm</Eyebrow>
         <h1
           className="mt-6 font-display text-display-2 leading-[1.02] text-paper md:text-display-1 md:leading-[0.94]"
-          style={{ fontWeight: 300, letterSpacing: '-0.035em', fontVariationSettings: "'opsz' 72" }}
+          style={{ fontWeight: 800, letterSpacing: '-0.03em' }}
         >
           {FIRM_TRADING_NAME}
         </h1>
         <div className="mt-14">
-          <Strata variant="strata" density={6} className="h-20 w-full opacity-50" />
+          <Rule weight="hi" />
         </div>
       </Section>
 
@@ -69,13 +67,7 @@ export default function AboutPage() {
           market with many unverifiable &ldquo;law firms&rdquo; online.
         </p>
 
-        <div className="mt-8 flex flex-col gap-10 md:flex-row md:items-start md:gap-16">
-          <StratumSeal
-            ringColor="var(--color-brass)"
-            emblemColor="var(--color-paper)"
-            className="h-28 w-28 shrink-0 opacity-90"
-          />
-
+        <div className="mt-8">
           <dl className="grid grid-cols-1 gap-x-10 gap-y-6 sm:grid-cols-2">
             <div>
               <dt className="text-body-sm text-paper-3">Registered name</dt>

@@ -6,8 +6,6 @@ import { Eyebrow } from '@/components/Eyebrow';
 import { Rule } from '@/components/Rule';
 import { LinkRow } from '@/components/LinkRow';
 import { PersonCard } from '@/components/PersonCard';
-import { Strata, InterlockingRings } from '@/components/Strata';
-import { LitigationHero } from '@/components/motion/LitigationHero';
 import { PRACTICE_AREAS, getPracticeArea } from '@/content/practice-areas';
 import { getPerson } from '@/content/people';
 import { PUBLICATIONS } from '@/content/publications';
@@ -18,11 +16,11 @@ import { PublicationCard } from '@/components/PublicationCard';
  * "FDI approval process Nepal" or "company registration foreign investor
  * Nepal", without keyword stuffing.
  *
- * The criminal & white-collar page (isLitigation) is the one place the bars
- * motif and oxblood surface appear, per the brief: on this page only, strata
- * rotates to vertical, the surface darkens toward --surface-oxblood, and the
- * interlocking-rings scroll marker (the relocated handcuff motif) sits in the
- * left rail. Every other practice page uses the standard `strata` header.
+ * The criminal & white-collar page (isLitigation) used to carry a distinct
+ * scroll-driven "bars rotate, surface darkens to oxblood" treatment and a
+ * handcuff-adjacent ring motif. The Stratum brand has no line motif and no
+ * second accent surface, so that page now uses the same static header as
+ * every other practice area — content and routing are unchanged.
  */
 
 export function generateStaticParams() {
@@ -67,7 +65,7 @@ export default async function PracticeAreaPage({
         </Link>
         <h1
           className="mt-6 max-w-(--container-measure) font-display text-display-2 leading-[1.05] text-paper"
-          style={{ fontWeight: 300, letterSpacing: '-0.03em', fontVariationSettings: "'opsz' 48" }}
+          style={{ fontWeight: 800, letterSpacing: '-0.03em' }}
         >
           {area.title}
         </h1>
@@ -75,7 +73,7 @@ export default async function PracticeAreaPage({
           {area.summary}
         </p>
         <div className="mt-14">
-          <Strata variant="strata" density={6} className="h-20 w-full opacity-50" />
+          <Rule weight="hi" />
         </div>
       </Section>
 
@@ -173,13 +171,23 @@ function LitigationTemplate({
   const validPeople = people.filter((p): p is NonNullable<typeof p> => Boolean(p));
 
   return (
-    <div data-surface="litigation" style={{ backgroundColor: 'var(--color-surface-oxblood)' }}>
-      <LitigationHero title={area.title} summary={area.summary} />
-
-      <Section rhythm="sm" index="02" railLabel="Overview" measure className="relative">
-        <div aria-hidden="true" className="absolute top-0 -left-2 hidden md:block">
-          <InterlockingRings className="h-6 w-auto text-paper-3 opacity-70" />
+    <div>
+      <Section rhythm="md" index="01" railLabel="Litigation" as="header">
+        <h1
+          className="mt-6 max-w-(--container-measure) font-display text-display-2 leading-[1.05] text-paper"
+          style={{ fontWeight: 800, letterSpacing: '-0.03em' }}
+        >
+          {area.title}
+        </h1>
+        <p className="mt-6 max-w-(--container-measure) font-display text-body-lg text-paper-2">
+          {area.summary}
+        </p>
+        <div className="mt-14">
+          <Rule weight="hi" />
         </div>
+      </Section>
+
+      <Section rhythm="sm" index="02" railLabel="Overview" measure>
         <div className="space-y-5 font-display text-body-lg text-paper-2">
           {area.overview.map((p, i) => (
             <p key={i}>{p}</p>

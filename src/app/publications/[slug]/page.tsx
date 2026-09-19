@@ -10,6 +10,7 @@ import { PUBLICATIONS, getPublication } from '@/content/publications';
 import { getPracticeArea } from '@/content/practice-areas';
 import { getPerson } from '@/content/people';
 import { TodoClient } from '@/components/TodoClient';
+import { FIRM_TRADING_NAME } from '@/config/firm';
 
 /**
  * /publications/[slug] — the article template.
@@ -90,7 +91,7 @@ export default async function PublicationPage({
 
         <h1
           className="mt-5 font-display text-display-2 leading-[1.05] text-paper"
-          style={{ fontWeight: 300, letterSpacing: '-0.03em', fontVariationSettings: "'opsz' 48" }}
+          style={{ fontWeight: 800, letterSpacing: '-0.03em' }}
         >
           {pub.title}
         </h1>
@@ -106,7 +107,7 @@ export default async function PublicationPage({
               {author.fullName}
             </Link>
           ) : (
-            <p className="text-body-sm text-paper-3">Stratum Legal</p>
+            <p className="text-body-sm text-paper-3">{FIRM_TRADING_NAME}</p>
           )}
         </div>
 

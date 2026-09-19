@@ -12,7 +12,7 @@ import { TodoClient } from './TodoClient';
  * one set). The grade is a CSS filter on a static image, applied at rest and
  * never animated — filter is not a compositor-friendly property.
  *
- * Where no photograph exists yet, the frame renders with the strata motif
+ * Where no photograph exists yet, the frame renders a plain flat placeholder
  * rather than collapsing, so the layout is identical before and after the
  * client supplies portraits, and the gap is visible rather than hidden.
  *
@@ -48,38 +48,16 @@ export function PersonCard({ person, areaTitles = [], headingLevel = 'h3' }: Per
             alt={person.fullName ?? ''}
             fill
             sizes="(max-width: 768px) 50vw, 25vw"
-            className="object-cover object-top"
-            style={{ filter: 'saturate(0.72) contrast(1.04)' }}
+            className="object-cover object-top grayscale"
           />
         ) : (
-          <span
-            aria-hidden="true"
-            className="absolute inset-0 flex items-end justify-center p-4"
-          >
-            <span className="w-full">
-              <svg viewBox="0 0 100 60" preserveAspectRatio="none" className="block h-16 w-full">
-                {[0, 14, 26, 36, 44].map((y, i) => (
-                  <line
-                    key={y}
-                    x1="0"
-                    y1={y}
-                    x2="100"
-                    y2={y}
-                    stroke="var(--color-line-strata)"
-                    strokeWidth="1"
-                    vectorEffect="non-scaling-stroke"
-                    opacity={0.9 - i * 0.13}
-                  />
-                ))}
-              </svg>
-            </span>
-          </span>
+          <span aria-hidden="true" className="absolute inset-0" />
         )}
       </div>
 
       <Heading
         className="font-display text-h3 leading-tight text-paper"
-        style={{ fontWeight: 400, letterSpacing: '-0.01em' }}
+        style={{ fontWeight: 500, letterSpacing: '-0.01em' }}
       >
         {person.fullName ?? <TodoClient>lawyer full name</TodoClient>}
       </Heading>

@@ -1,7 +1,7 @@
 /**
  * SINGLE SOURCE OF TRUTH for the firm's identity and contact details.
  *
- * The firm name is provisional and may change on Nepal Bar Council instruction.
+ * The firm is officially registered as Stratum Law Associates Pvt. Ltd.
  * Nothing in this repository may hardcode the firm name, a phone number, an
  * email address, or the office address. Everything reads from here — including
  * page titles, structured data, OG images, and alt text.
@@ -10,9 +10,11 @@
  * everywhere on the site with no other edits.
  */
 
-export const FIRM_LEGAL_NAME = 'Stratum Legal Nexus Pvt. Ltd.';
-export const FIRM_TRADING_NAME = 'Stratum Legal';
+export const FIRM_LEGAL_NAME = 'Stratum Law Associates Pvt. Ltd.';
+export const FIRM_TRADING_NAME = 'Stratum Law Associates';
 export const FIRM_SHORT = 'Stratum';
+/** The descriptor set below the wordmark in the logo lockup. */
+export const FIRM_DESCRIPTOR = 'Law Associates';
 
 /** Registration detail. Published as a trust signal — see /about. */
 export const REGISTRATION = {
@@ -48,7 +50,7 @@ export const CONTACT = {
 } as const;
 
 /** Canonical production origin. Used for metadata, sitemap, and OG images. */
-export const SITE_URL = 'https://stratumlegal.com.np'; // TODO(client): confirm domain
+export const SITE_URL = 'https://stratumlaw.com.np'; // TODO(client): confirm domain
 
 /**
  * The compliance disclaimer required in the footer and on /legal-notice.

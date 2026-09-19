@@ -1,5 +1,4 @@
 import { Section } from '@/components/Section';
-import { Strata, InterlockingRings } from '@/components/Strata';
 import { Eyebrow, DataValue } from '@/components/Eyebrow';
 import { Rule } from '@/components/Rule';
 import { LinkRow } from '@/components/LinkRow';
@@ -9,15 +8,16 @@ import { Prose } from '@/components/Prose';
 import { EnquiryForm } from '@/components/EnquiryForm';
 import { ContactChannels, OfficeAddress } from '@/components/ContactChannels';
 import { TodoClient } from '@/components/TodoClient';
-import { StratumSeal } from '@/components/brand/Seal';
+import { FIRM_SHORT } from '@/config/firm';
 import { orderedPracticeAreas } from '@/content/practice-areas';
 
 /**
- * PHASE 2 PREVIEW — primitives on a blank page.
+ * DEV PREVIEW — primitives on a blank page.
  *
- * This file is scaffolding, not the homepage. It exists so the shell and every
- * primitive can be reviewed in isolation before any page content is written.
- * Phase 3 replaces it entirely with the real home page.
+ * Internal style guide, not a real route in the site's IA (route group
+ * `(dev)`). Exercises every Stratum token and component in isolation, useful
+ * for visually verifying the rebrand: wordmark, colour palette, type scale,
+ * rows, rules, cards, prose, and the form.
  */
 
 export default function PrimitivesPreview() {
@@ -26,62 +26,47 @@ export default function PrimitivesPreview() {
   return (
     <>
       <Section rhythm="md" index="00" railLabel="Preview">
-        <Eyebrow tone="accent">Phase 2</Eyebrow>
+        <Eyebrow tone="accent">Dev preview</Eyebrow>
         <h1
           className="mt-6 font-display text-display-2 leading-[1.02] text-paper md:text-display-1 md:leading-[0.94]"
-          style={{ fontWeight: 300, letterSpacing: '-0.035em', fontVariationSettings: "'opsz' 72" }}
+          style={{ fontWeight: 800, letterSpacing: '-0.03em' }}
         >
           Primitives
         </h1>
         <p className="mt-8 max-w-(--container-measure) font-display text-body-lg text-paper-2">
           Shell and components rendering with no page content and no motion. Every
-          value on this page derives from the phase 1 token system.
+          value on this page derives from the Stratum token system.
         </p>
       </Section>
 
       {/* ---------------------------------------------------------------- */}
-      <Section rhythm="sm" index="01" railLabel="Strata">
+      <Section rhythm="sm" index="01" railLabel="Colour">
         <h2 className="font-display text-h1 text-paper" style={{ letterSpacing: '-0.022em' }}>
-          The strata motif
+          Palette
         </h2>
         <p className="mt-4 max-w-(--container-measure) text-body-sm text-paper-2">
-          One primitive, three readings. Static, zero JavaScript.
+          Ink, Ground, Signal Red, and Grey 600 — the entire palette. No second accent,
+          no tint system.
         </p>
 
-        <div className="mt-10 grid grid-cols-1 gap-10 md:grid-cols-3">
-          <figure>
-            <Eyebrow as="figcaption">strata — compressing downward</Eyebrow>
-            <div className="mt-4 h-40 border border-line p-4">
-              <Strata variant="strata" className="h-full w-full" />
-            </div>
-          </figure>
-          <figure>
-            <Eyebrow as="figcaption">bars — even, vertical</Eyebrow>
-            <div className="mt-4 h-40 border border-line p-4">
-              <Strata variant="bars" className="h-full w-full" />
-            </div>
-          </figure>
-          <figure>
-            <Eyebrow as="figcaption">rules — ruled page</Eyebrow>
-            <div className="mt-4 h-40 border border-line p-4">
-              <Strata variant="rules" className="h-full w-full" />
-            </div>
-          </figure>
-        </div>
-
-        <div className="mt-10 flex flex-wrap items-end gap-12">
-          <figure>
-            <Eyebrow as="figcaption">accentIndex — one brass line</Eyebrow>
-            <div className="mt-4 h-24 w-56 border border-line p-4">
-              <Strata variant="strata" accentIndex={2} className="h-full w-full" />
-            </div>
-          </figure>
-          <figure>
-            <Eyebrow as="figcaption">rings — litigation rail marker</Eyebrow>
-            <div className="mt-4 flex h-24 w-56 items-center border border-line p-4">
-              <InterlockingRings className="h-10 w-auto text-paper-3" />
-            </div>
-          </figure>
+        <div className="mt-10 grid grid-cols-2 gap-6 md:grid-cols-4">
+          {[
+            { name: 'Ink', hex: '#201E1D', var: '--color-paper' },
+            { name: 'Ground', hex: '#F3F2F2', var: '--color-ink-000' },
+            { name: 'Signal Red', hex: '#EC3013', var: '--color-brass' },
+            { name: 'Grey 600', hex: '#605D5D', var: '--color-paper-2' },
+          ].map((swatch) => (
+            <figure key={swatch.hex}>
+              <div
+                className="h-24 w-full border border-line"
+                style={{ backgroundColor: `var(${swatch.var})` }}
+              />
+              <figcaption className="mt-3">
+                <span className="block text-body-sm text-paper">{swatch.name}</span>
+                <span className="mt-0.5 block font-mono text-data text-paper-3">{swatch.hex}</span>
+              </figcaption>
+            </figure>
+          ))}
         </div>
       </Section>
 
@@ -91,28 +76,25 @@ export default function PrimitivesPreview() {
           Wordmark
         </h2>
         <p className="mt-4 max-w-(--container-measure) text-body-sm text-paper-2">
-          Live text from <code className="font-mono text-data">FIRM_TRADING_NAME</code>, not
-          rasterised artwork. The rules above the name are the motif, so the mark and the
-          strata are one object.
+          Set live in Archivo, not rasterised artwork — <code className="font-mono text-data">FIRM_SHORT</code>{' '}
+          in weight 800 above a rule, &ldquo;LAW ASSOCIATES&rdquo; in weight 500 below it. No
+          symbol: the identity is the wordmark alone.
         </p>
 
-        <div className="mt-10 flex flex-wrap items-end gap-x-16 gap-y-10">
-          <div>
-            <Eyebrow as="div">seal — 64px</Eyebrow>
-            <StratumSeal
-              ringColor="var(--color-brass)"
-              emblemColor="var(--color-paper)"
-              className="mt-4 h-16 w-16"
-            />
-          </div>
-          <div>
-            <Eyebrow as="div">seal — 40px</Eyebrow>
-            <StratumSeal
-              ringColor="var(--color-brass)"
-              emblemColor="var(--color-paper)"
-              className="mt-4 h-10 w-10"
-            />
-          </div>
+        <div className="mt-10">
+          <span
+            className="block font-display uppercase text-paper"
+            style={{ fontWeight: 800, letterSpacing: '-0.03em', fontSize: '3rem' }}
+          >
+            {FIRM_SHORT}
+          </span>
+          <div className="mt-3 h-px w-24" style={{ backgroundColor: 'var(--color-line-hi)' }} />
+          <span
+            className="mt-3 block font-sans uppercase text-paper-3"
+            style={{ fontWeight: 500, letterSpacing: '0.34em', fontSize: '0.85rem' }}
+          >
+            Law Associates
+          </span>
         </div>
       </Section>
 
@@ -123,39 +105,33 @@ export default function PrimitivesPreview() {
         </h2>
         <div className="mt-10 space-y-8">
           <TypeSpecimen
-            label="display-1 · Newsreader 300 · 84px"
+            label="display-1 · Archivo 800 · 84px"
             className="text-display-2 md:text-display-1"
-            opsz={72}
-            tracking="-0.035em"
-          />
-          <TypeSpecimen
-            label="display-2 · Newsreader 300 · 60px"
-            className="text-h1 md:text-display-2"
-            opsz={48}
             tracking="-0.03em"
           />
           <TypeSpecimen
-            label="h1 · Newsreader 400 · 44px"
-            className="text-h2 md:text-h1"
-            opsz={32}
-            tracking="-0.022em"
-            weight={400}
+            label="display-2 · Archivo 800 · 60px"
+            className="text-h1 md:text-display-2"
+            tracking="-0.03em"
           />
           <TypeSpecimen
-            label="h2 · Newsreader 400 · 30px"
+            label="h1 · Archivo 800 · 44px"
+            className="text-h2 md:text-h1"
+            tracking="-0.022em"
+          />
+          <TypeSpecimen
+            label="h2 · Archivo 800 · 30px"
             className="text-h3 md:text-h2"
-            opsz={24}
             tracking="-0.015em"
-            weight={400}
           />
           <div>
-            <Eyebrow as="div">h3 · Instrument Sans 500 · 21px</Eyebrow>
+            <Eyebrow as="div">h3 / subhead · Archivo 500 · 21px</Eyebrow>
             <p className="mt-2 font-sans text-h3 font-medium text-paper">
-              The paper becomes the brand mark
+              Precision over expression
             </p>
           </div>
           <div>
-            <Eyebrow as="div">body-lg · Newsreader 400 · 19px · article body</Eyebrow>
+            <Eyebrow as="div">body-lg · Archivo 400 · 19px · article body</Eyebrow>
             <p className="mt-2 max-w-(--container-measure) font-display text-body-lg text-paper">
               Foreign investment into Nepal runs through a defined approval pathway. The
               Foreign Investment and Technology Transfer Act 2019 sets the minimum
@@ -163,7 +139,7 @@ export default function PrimitivesPreview() {
             </p>
           </div>
           <div>
-            <Eyebrow as="div">body · Instrument Sans 400 · 16px · UI</Eyebrow>
+            <Eyebrow as="div">body · Archivo 400 · 16px · UI</Eyebrow>
             <p className="mt-2 max-w-(--container-measure) text-body text-paper">
               Approval is the beginning rather than the end. Repatriation of dividends
               requires separate recording of the investment with Nepal Rastra Bank.
@@ -172,11 +148,11 @@ export default function PrimitivesPreview() {
           <div>
             <Eyebrow as="div">body-sm · 14px · secondary</Eyebrow>
             <p className="mt-2 max-w-(--container-measure) text-body-sm text-paper-2">
-              Secondary text sits on paper-2, which measures 8.1:1 against ink-000.
+              Secondary text sits on paper-2 (Grey 600), which measures 5.7:1 against ground.
             </p>
           </div>
           <div>
-            <Eyebrow as="div">label · JetBrains Mono 500 · 12px · the only uppercase</Eyebrow>
+            <Eyebrow as="div">label · Archivo 500 · 12px · +80 tracking, uppercase</Eyebrow>
             <p className="mt-2">
               <Eyebrow>Nepal Bar Council</Eyebrow>
             </p>
@@ -196,8 +172,9 @@ export default function PrimitivesPreview() {
           LinkRow
         </h2>
         <p className="mt-4 max-w-(--container-measure) text-body-sm text-paper-2">
-          Hover or tab through: the hairline lifts to line-hi, a brass rule scales in from
-          the left, and the label shifts 2px. That is the entire hover vocabulary of the site.
+          Hover or tab through: the hairline lifts to line-hi, a Signal Red rule scales in
+          from the left, and the label shifts 2px. That is the entire hover vocabulary of
+          the site.
         </p>
         <div className="mt-8">
           {areas.slice(0, 5).map((area, i) => (
@@ -227,7 +204,7 @@ export default function PrimitivesPreview() {
             <Rule weight="hi" className="mt-3" />
           </div>
           <div>
-            <Eyebrow as="div">accent — brass segment</Eyebrow>
+            <Eyebrow as="div">accent — Signal Red segment</Eyebrow>
             <Rule weight="hi" accent className="mt-3" />
           </div>
         </div>
@@ -304,13 +281,13 @@ export default function PrimitivesPreview() {
       {/* ---------------------------------------------------------------- */}
       <Section rhythm="sm" index="08" railLabel="Prose">
         <h2 className="font-display text-h1 text-paper" style={{ letterSpacing: '-0.022em' }}>
-          Prose — paper ground
+          Prose
         </h2>
         <p className="mt-4 max-w-(--container-measure) text-body-sm text-paper-2">
-          Publications invert. Same tokens, remapped under{' '}
-          <code className="font-mono text-data">[data-surface=&quot;paper&quot;]</code>.
+          Publications render on the same default ground as every other page — no
+          separate surface to invert to.
         </p>
-        <div data-surface="paper" className="mt-8 border border-line p-8 md:p-12">
+        <div className="mt-8 border border-line p-8 md:p-12">
           <Prose>
             <h2>Recording the investment</h2>
             <p>
@@ -388,13 +365,11 @@ export default function PrimitivesPreview() {
 function TypeSpecimen({
   label,
   className,
-  opsz,
   tracking,
-  weight = 300,
+  weight = 800,
 }: {
   label: string;
   className: string;
-  opsz: number;
   tracking: string;
   weight?: number;
 }) {
@@ -406,11 +381,10 @@ function TypeSpecimen({
         style={{
           fontWeight: weight,
           letterSpacing: tracking,
-          fontVariationSettings: `'opsz' ${opsz}`,
           lineHeight: 1.02,
         }}
       >
-        Layers of certainty
+        Precision, continuity, discretion
       </p>
     </div>
   );

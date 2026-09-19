@@ -2,14 +2,15 @@ import Link from 'next/link';
 import {
   CONTACT,
   DISCLAIMER,
+  FIRM_DESCRIPTOR,
   FIRM_LEGAL_NAME,
   FIRM_TRADING_NAME,
   REGISTRATION,
 } from '@/config/firm';
+import { LogoMark, Wordmark } from './brand/Logo';
 import { NAV_ITEMS, SECONDARY_NAV_ITEMS } from '@/config/nav';
 import { ContactChannels, OfficeAddress } from './ContactChannels';
 import { Eyebrow, DataValue } from './Eyebrow';
-import { StratumSeal } from './brand/Seal';
 import { TodoClient } from './TodoClient';
 
 /**
@@ -20,8 +21,9 @@ import { TodoClient } from './TodoClient';
  * registration detail is the strongest available trust signal in a market with
  * many unverifiable "law firms" online, and it is fully permitted.
  *
- * The seal appears here at full size, legible, as the firm's primary mark —
- * matching its use in the header and hero.
+ * Brand mark: the full stacked lockup — the scales mark, the wordmark in
+ * Playfair (with the crimson A), a rule, then LAW ASSOCIATES in spaced
+ * Archivo, mirroring the arrangement of the supplied logo artwork.
  *
  * Everything here reads from src/config/firm.ts.
  */
@@ -32,11 +34,20 @@ export function SiteFooter() {
   return (
     <footer className="border-t border-line bg-ink-000">
       <div className="mx-auto w-full max-w-(--container-shell) px-5 py-(--spacing-section-sm) md:px-8">
-        <StratumSeal
-          ringColor="var(--color-brass)"
-          emblemColor="var(--color-paper)"
-          className="mb-12 h-20 w-20 opacity-90"
-        />
+        <div className="mb-12">
+          <LogoMark className="h-14 w-auto" />
+          <Wordmark
+            aria-hidden="true"
+            className="mt-4 block text-[1.75rem] leading-none tracking-[0.07em] text-paper"
+          />
+          <div className="mt-2 h-px w-16" style={{ backgroundColor: 'var(--color-line-hi)' }} />
+          <span
+            className="mt-2 block font-sans uppercase text-paper-3"
+            style={{ fontWeight: 500, letterSpacing: '0.34em', fontSize: '0.65rem' }}
+          >
+            {FIRM_DESCRIPTOR}
+          </span>
+        </div>
         <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-4 lg:gap-8">
           {/* Office */}
           <div>
