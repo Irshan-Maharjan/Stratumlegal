@@ -15,15 +15,21 @@ import { Eyebrow } from './Eyebrow';
  * summary receives focus on failure so a screen reader user is told what
  * happened rather than left on a silently unsubmitted form.
  *
- * Submission is stubbed — no backend yet. The stub resolves and shows the real
- * success state so the whole path is reviewable; wiring it to a mail transport
- * is a later phase.
+ * Submissions POST to a Google Apps Script bound to the firm's enquiries
+ * spreadsheet, which appends a row and emails the firm. The site is a static
+ * export with no server, so it cannot hold an API credential — the Apps
+ * Script runs under the firm's own authorisation instead. See
+ * docs/enquiries-apps-script.gs for the script and deployment steps.
+ *
+ * A failed send never shows success. Telling someone their enquiry was
+ * received when it was not is worse than showing an error, particularly for a
+ * law firm, so failure keeps the form populated and points at the phone.
  *
  * Progressive enhancement note: with JS disabled the fields, labels and native
  * `required`/`type` attributes still render, so the browser performs basic
- * validation. The form cannot submit without JS because there is no endpoint
- * yet; the phone and Viber/WhatsApp links beside it work regardless, which is
- * the path most Nepali visitors take anyway.
+ * validation, but submission needs JS. The phone and Viber/WhatsApp links
+ * beside it work regardless, which is the path most Nepali visitors take
+ * anyway.
  */
 
 type MatterOption = { value: string; label: string };
@@ -40,9 +46,16 @@ const FIELD_BASE =
   'transition-colors duration-(--duration-hover) placeholder:text-paper-3 ' +
   'hover:border-line-hi focus:border-brass focus:outline-none';
 
+/**
+ * The Apps Script web app bound to the firm's enquiries spreadsheet. Set at
+ * build time; see docs/enquiries-apps-script.gs for the script and how to
+ * deploy it. Absent, the form refuses to pretend it sent anything.
+ */
+const ENDPOINT = process.env.NEXT_PUBLIC_ENQUIRY_ENDPOINT || '';
+
 export function EnquiryForm({ matterTypes }: EnquiryFormProps) {
   const [errors, setErrors] = useState<Errors>({});
-  const [status, setStatus] = useState<'idle' | 'sending' | 'sent'>('idle');
+  const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
 
   function validate(data: FormData): Errors {
     const next: Errors = {};
@@ -80,11 +93,37 @@ export function EnquiryForm({ matterTypes }: EnquiryFormProps) {
       return;
     }
 
+    if (!ENDPOINT) {
+      // No endpoint configured for this build. Say so rather than showing a
+      // success screen for an enquiry that went nowhere.
+      setStatus('error');
+      return;
+    }
+
     setStatus('sending');
-    // TODO(client): wire to a mail transport or CRM endpoint. Stubbed for now.
-    await new Promise((resolve) => setTimeout(resolve, 400));
-    setStatus('sent');
-    form.reset();
+
+    try {
+      const response = await fetch(ENDPOINT, {
+        method: 'POST',
+        // Deliberately url-encoded, not JSON: a JSON content type triggers a
+        // CORS preflight, and Apps Script web apps do not answer preflight
+        // requests. This keeps the request "simple" so the browser sends it
+        // directly.
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(data as unknown as Record<string, string>).toString(),
+      });
+
+      const result = (await response.json()) as { ok?: boolean };
+      if (!response.ok || !result.ok) throw new Error('Endpoint rejected the enquiry');
+
+      setStatus('sent');
+      form.reset();
+    } catch {
+      // Never show success on failure: the enquirer would walk away believing
+      // the firm had their message. The error state offers the phone number
+      // instead, which works regardless.
+      setStatus('error');
+    }
   }
 
   if (status === 'sent') {
@@ -115,6 +154,32 @@ export function EnquiryForm({ matterTypes }: EnquiryFormProps) {
 
   return (
     <form onSubmit={handleSubmit} noValidate className="space-y-6">
+      {/* Failure is shown above the still-populated form rather than on its
+          own screen, so nothing the enquirer typed is lost and they can
+          simply retry. role="alert" announces it without moving focus away
+          from where they were. */}
+      {status === 'error' && (
+        <div
+          role="alert"
+          className="border p-5"
+          style={{ borderColor: 'var(--color-brass)', borderRadius: 'var(--radius-sm)' }}
+        >
+          <p className="text-body-sm text-paper">
+            That did not send. Nothing has been lost — try again, or reach us by
+            telephone, which is often quicker in any case.
+          </p>
+        </div>
+      )}
+
+      {/* Honeypot. Hidden from sight and from assistive tech, and skipped in
+          the tab order, so no human fills it — anything that does is a bot,
+          and the endpoint discards that submission. A hidden field costs
+          nothing and avoids putting a CAPTCHA in front of a client. */}
+      <div aria-hidden="true" className="absolute h-px w-px overflow-hidden opacity-0">
+        <label htmlFor="company">Company (leave blank)</label>
+        <input id="company" name="company" type="text" tabIndex={-1} autoComplete="off" />
+      </div>
+
       <Field
         name="name"
         label="Name"

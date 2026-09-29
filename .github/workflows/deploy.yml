@@ -57,6 +57,12 @@ jobs:
           # the site is on a temporary host; clear it to go live. A manual run
           # can override it for one build via the input above.
           NEXT_PUBLIC_SITE_URL: ${{ github.event.inputs.site_url || vars.SITE_URL }}
+          # The Apps Script web app that records contact-form enquiries to the
+          # firm's spreadsheet. A repository VARIABLE, not a secret: the URL
+          # ships in the page source either way, since the browser is what
+          # posts to it. Unset, the form shows an error instead of pretending
+          # to send. See docs/enquiries-apps-script.gs.
+          NEXT_PUBLIC_ENQUIRY_ENDPOINT: ${{ vars.ENQUIRY_ENDPOINT }}
         run: npm run build
 
       # Fail loudly rather than publishing an empty or half-written directory.
