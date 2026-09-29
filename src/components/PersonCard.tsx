@@ -47,8 +47,8 @@ export function PersonCard({ person, areaTitles = [], headingLevel = 'h3' }: Per
             src={person.photograph}
             alt={person.fullName ?? ''}
             fill
-            sizes="(max-width: 768px) 50vw, 25vw"
-            className="object-cover object-top grayscale"
+            sizes="(max-width: 768px) 50vw, 33vw"
+            className="object-cover object-center grayscale"
           />
         ) : (
           <span aria-hidden="true" className="absolute inset-0" />

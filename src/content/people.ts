@@ -10,7 +10,11 @@ import type { Person } from './types';
  * misstating a lawyer's qualifications is a Bar Council problem, not a
  * copywriting one.
  *
- * Still outstanding for every person: photograph, email, education, languages
+ * Portraits are the client's own photographs, cropped to the 4:5 frame the
+ * cards use and rendered desaturated so a mix of studio and non-studio shots
+ * reads as one set.
+ *
+ * Still outstanding for every person: email, education, languages
  * and bio. For Pranish, also the Bar Council licence number, year called and
  * practice areas — see isLegalPractitioner in types.ts for why those are only
  * asked of practitioners.
@@ -30,7 +34,7 @@ export const PEOPLE: Person[] = [
     languages: [], // TODO(client): languages
     email: null, // TODO(client): email
     phone: '9845411590',
-    photograph: null, // TODO(client): portrait
+    photograph: '/img/people/pranish-bhakta-uprety.jpg',
     bio: null, // TODO(client): bio
   },
   {
@@ -46,7 +50,7 @@ export const PEOPLE: Person[] = [
     languages: [],
     email: null, // TODO(client): email
     phone: '9844289177',
-    photograph: null, // TODO(client): portrait
+    photograph: '/img/people/irshan-maharjan.jpg',
     bio: null, // TODO(client): bio
   },
   {
@@ -62,7 +66,7 @@ export const PEOPLE: Person[] = [
     languages: [],
     email: null, // TODO(client): email
     phone: '9840668256',
-    photograph: null, // TODO(client): portrait
+    photograph: '/img/people/kabin-tiwari.jpg',
     bio: null, // TODO(client): bio
   },
 ];

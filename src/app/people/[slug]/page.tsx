@@ -70,7 +70,7 @@ export default async function PersonPage({
                 alt={person.fullName ?? ''}
                 fill
                 sizes="256px"
-                className="object-cover object-top grayscale"
+                className="object-cover object-center grayscale"
               />
             ) : (
               <span aria-hidden="true" className="absolute inset-0" />
