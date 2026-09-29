@@ -29,7 +29,7 @@ export const PEOPLE: Person[] = [
     sectors: [],
     languages: [], // TODO(client): languages
     email: null, // TODO(client): email
-    phone: '+977 984-541-1590',
+    phone: '9845411590',
     photograph: null, // TODO(client): portrait
     bio: null, // TODO(client): bio
   },
@@ -45,7 +45,7 @@ export const PEOPLE: Person[] = [
     sectors: [],
     languages: [],
     email: null, // TODO(client): email
-    phone: '+977 984-428-9177',
+    phone: '9844289177',
     photograph: null, // TODO(client): portrait
     bio: null, // TODO(client): bio
   },
@@ -61,7 +61,7 @@ export const PEOPLE: Person[] = [
     sectors: [],
     languages: [],
     email: null, // TODO(client): email
-    phone: '+977 984-066-8256',
+    phone: '9840668256',
     photograph: null, // TODO(client): portrait
     bio: null, // TODO(client): bio
   },

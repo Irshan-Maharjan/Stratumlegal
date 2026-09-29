@@ -41,9 +41,9 @@ export const CONTACT = {
   /** Landline, in +977 international format. */
   phoneLandline: null as string | null, // TODO(client): landline
   /** Mobile, also used for the Viber deep link. */
-  phoneMobile: '+977 984-541-1590',
+  phoneMobile: '9845411590',
   /** WhatsApp number in international format, digits only for the deep link. */
-  whatsapp: '+977 984-541-1590',
+  whatsapp: '9845411590',
   email: 'stratumlawassociates@gmail.com',
   /**
    * Free text, e.g. "Sunday–Friday, 10:00–17:00". Null is a deliberate
@@ -100,5 +100,28 @@ export const DISCLAIMER =
   'constitute legal advice or solicitation of work. Transmission of information ' +
   'does not create a lawyer–client relationship.';
 
-/** Digits-only helpers for tel:, Viber, and WhatsApp deep links. */
-export const digitsOnly = (value: string) => value.replace(/[^\d+]/g, '');
+/** Nepal's calling code, without the leading +. */
+const COUNTRY_CODE = '977';
+
+/**
+ * Digits-only helper for tel:, Viber and WhatsApp deep links.
+ *
+ * Numbers are STORED and DISPLAYED the way Nepali clients write them —
+ * "9845411590", no country code, no punctuation. But a dialled link needs the
+ * international form: WhatsApp rejects a local number outright, and a tel:
+ * link without a country code fails for anyone calling from abroad, which is
+ * precisely the foreign-investor audience this firm is for.
+ *
+ * So display and link are deliberately different: this normalises whatever is
+ * stored into +977XXXXXXXXXX, while the page still shows the local form.
+ * A number already carrying a country code is left as it is.
+ */
+export const digitsOnly = (value: string) => {
+  const digits = value.replace(/\D/g, '');
+  if (value.trim().startsWith('+') || digits.startsWith(COUNTRY_CODE)) {
+    return `+${digits}`;
+  }
+  // A local mobile is 10 digits (98XXXXXXXX); anything else is passed through
+  // unprefixed rather than guessed at.
+  return digits.length === 10 ? `+${COUNTRY_CODE}${digits}` : digits;
+};
