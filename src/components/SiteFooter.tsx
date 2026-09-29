@@ -10,7 +10,6 @@ import { LogoMark, Wordmark } from './brand/Logo';
 import { NAV_ITEMS, SECONDARY_NAV_ITEMS } from '@/config/nav';
 import { ContactChannels, OfficeAddress } from './ContactChannels';
 import { Eyebrow } from './Eyebrow';
-import { TodoClient } from './TodoClient';
 
 /**
  * <SiteFooter>
@@ -57,12 +56,8 @@ export function SiteFooter() {
             <div className="mt-4">
               <OfficeAddress />
             </div>
-            {CONTACT.officeHours ? (
+            {CONTACT.officeHours && (
               <p className="mt-4 text-body-sm text-paper-3">{CONTACT.officeHours}</p>
-            ) : (
-              <p className="mt-4">
-                <TodoClient>office hours</TodoClient>
-              </p>
             )}
           </div>
 
@@ -121,8 +116,12 @@ export function SiteFooter() {
             <p className="font-mono text-label tracking-[0.13em] text-paper-3 uppercase">
               © {year} {FIRM_TRADING_NAME}
             </p>
+            {/* Reads from CONTACT rather than a hardcoded city: this line
+                sits a few inches below the office address, so the two
+                disagreeing would be conspicuous. Page titles and metadata
+                still say Kathmandu, which is the search term. */}
             <p className="font-mono text-label tracking-[0.13em] text-paper-3 uppercase">
-              Kathmandu, Nepal
+              {CONTACT.address.city}, {CONTACT.address.country}
             </p>
           </div>
         </div>

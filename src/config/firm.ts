@@ -43,10 +43,14 @@ export const CONTACT = {
   /** Mobile, also used for the Viber deep link. */
   phoneMobile: '+977 984-541-1590',
   /** WhatsApp number in international format, digits only for the deep link. */
-  whatsapp: null as string | null, // TODO(client): confirm if this line takes WhatsApp
-  email: null as string | null, // TODO(client): general email
-  /** Free text, e.g. "Sunday–Friday, 10:00–17:00". */
-  officeHours: null as string | null, // TODO(client): office hours
+  whatsapp: '+977 984-541-1590',
+  email: 'stratumlawassociates@gmail.com',
+  /**
+   * Free text, e.g. "Sunday–Friday, 10:00–17:00". Null is a deliberate
+   * choice here rather than a gap: the firm does not publish fixed hours, so
+   * every consumer omits the line entirely.
+   */
+  officeHours: null as string | null,
 } as const;
 
 /**

@@ -3,7 +3,6 @@ import { Section } from '@/components/Section';
 import { Eyebrow } from '@/components/Eyebrow';
 import { EnquiryForm } from '@/components/EnquiryForm';
 import { ContactChannels, OfficeAddress } from '@/components/ContactChannels';
-import { TodoClient } from '@/components/TodoClient';
 import { CONTACT, FIRM_TRADING_NAME } from '@/config/firm';
 import { orderedPracticeAreas } from '@/content/practice-areas';
 
@@ -55,19 +54,19 @@ export default function ContactPage() {
               <div className="mt-5">
                 <OfficeAddress />
               </div>
-              <div className="mt-5">
-                {CONTACT.officeHours ? (
+              {CONTACT.officeHours && (
+                <div className="mt-5">
                   <p className="text-body-sm text-paper-2">{CONTACT.officeHours}</p>
-                ) : (
-                  <TodoClient>office hours</TodoClient>
-                )}
-              </div>
+                </div>
+              )}
             </div>
 
-            <div>
-              <Eyebrow as="div">Map</Eyebrow>
-              <div className="mt-5">
-                {CONTACT.mapUrl ? (
+            {/* The Map block omits itself, heading included, when there is no
+                link — an "Empty" panel under a "Map" label looks broken. */}
+            {CONTACT.mapUrl && (
+              <div>
+                <Eyebrow as="div">Map</Eyebrow>
+                <div className="mt-5">
                   <a
                     href={CONTACT.mapUrl}
                     target="_blank"
@@ -77,16 +76,9 @@ export default function ContactPage() {
                   >
                     View on Google Maps →
                   </a>
-                ) : (
-                  <div
-                    className="border border-line p-4"
-                    style={{ borderRadius: 'var(--radius-sm)' }}
-                  >
-                    <TodoClient>Google Maps link or coordinates</TodoClient>
-                  </div>
-                )}
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
       </Section>

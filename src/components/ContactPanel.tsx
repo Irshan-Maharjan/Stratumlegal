@@ -57,9 +57,13 @@ export function ContactPanel() {
               ) : (
                 <TodoClient>mobile number</TodoClient>
               )}
-              <p className="mt-4 text-body-sm" style={{ color: DIMMER }}>
-                {CONTACT.officeHours ?? 'Sunday to Friday, during office hours'}
-              </p>
+              {/* No invented fallback: the firm publishes no fixed hours, and
+                  stating any would be a claim it has not made. */}
+              {CONTACT.officeHours && (
+                <p className="mt-4 text-body-sm" style={{ color: DIMMER }}>
+                  {CONTACT.officeHours}
+                </p>
+              )}
             </div>
           </div>
 

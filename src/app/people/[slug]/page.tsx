@@ -12,7 +12,7 @@ import { FIRM_TRADING_NAME, digitsOnly } from '@/config/firm';
 
 /**
  * /people/[slug] — the highest-value template on the site per the brief.
- * Every fact is either present or a visible TODO(client); nothing is invented.
+ * Every fact is either present or omitted; nothing is invented.
  */
 
 export function generateStaticParams() {

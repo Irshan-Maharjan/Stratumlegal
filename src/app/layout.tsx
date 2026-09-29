@@ -3,6 +3,7 @@ import localFont from 'next/font/local';
 import './globals.css';
 import { SiteHeader } from '@/components/SiteHeader';
 import { SiteFooter } from '@/components/SiteFooter';
+import { SilicoreCredit } from '@/components/SilicoreCredit';
 import { SmoothScrollProvider } from '@/components/motion/SmoothScrollProvider';
 import { FIRM_TRADING_NAME, FIRM_LEGAL_NAME, IS_INDEXABLE, SITE_URL } from '@/config/firm';
 
@@ -109,6 +110,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             {children}
           </main>
           <SiteFooter />
+          {/* Outside the footer: the studio's credit, not the firm's. */}
+          <SilicoreCredit />
         </SmoothScrollProvider>
       </body>
     </html>

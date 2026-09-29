@@ -23,7 +23,7 @@ export const NAV_ITEMS: NavItem[] = [
   { href: '/people', label: 'People' },
   {
     href: '/practice',
-    label: 'Practice',
+    label: 'Practice areas',
     children: orderedPracticeAreas().map((area) => ({
       href: `/practice/${area.slug}`,
       label: area.title,

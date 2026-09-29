@@ -1,18 +1,30 @@
 import type { ReactNode } from 'react';
 
 /**
- * <TodoClient> — a visible placeholder for a fact the firm has not yet supplied.
+ * <TodoClient> — a placeholder for a fact the firm has not yet supplied.
  *
- * Fabricated lawyer credentials, firm history, or registration numbers on a live
- * law firm site are both a Bar Council compliance problem and a lie. So nothing
- * unsourced is ever invented, and every gap renders loudly instead: brass, mono,
- * bracketed, and impossible to mistake for content.
+ * Nothing unsourced is ever invented: fabricated credentials, firm history or
+ * registration numbers on a live law firm site are both a Bar Council
+ * compliance problem and a lie. So a missing fact renders nothing at all
+ * rather than a guess.
  *
- * It renders in production deliberately. A placeholder that disappears at build
- * time is a placeholder that ships empty and nobody notices.
+ * VISIBILITY: the marker used to render in production so gaps could not ship
+ * unnoticed. The site is now in front of clients, so in a production build it
+ * renders null — a bracketed "TODO(client)" on a law firm's live contact page
+ * reads as an unfinished site. In development it still renders loudly, which
+ * is where the remaining gaps should be caught.
+ *
+ * The consequence to keep in mind: a section whose every field is missing now
+ * collapses to empty space in production. Call sites that would look broken
+ * empty should check the value themselves and omit their own heading too,
+ * rather than relying on this to say something.
  */
 
+const SHOW_MARKERS = process.env.NODE_ENV !== 'production';
+
 export function TodoClient({ children }: { children: ReactNode }) {
+  if (!SHOW_MARKERS) return null;
+
   return (
     <mark
       className="inline-block border border-brass bg-transparent px-1.5 py-0.5 font-mono text-data text-brass"

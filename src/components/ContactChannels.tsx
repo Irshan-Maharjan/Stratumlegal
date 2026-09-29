@@ -1,6 +1,5 @@
 import { CONTACT, digitsOnly } from '@/config/firm';
 import { Eyebrow } from './Eyebrow';
-import { TodoClient } from './TodoClient';
 
 /**
  * <ContactChannels> — phone, Viber and WhatsApp as deep links.
@@ -9,9 +8,9 @@ import { TodoClient } from './TodoClient';
  * these substantially outperform a web form, so they are given equal or greater
  * prominence than the form itself rather than being tucked underneath it.
  *
- * Every number reads from CONTACT in src/config/firm.ts. Missing numbers render
- * a TodoClient marker instead of a dead link — a tel: href pointing at nothing
- * is worse than a visible gap.
+ * Every number reads from CONTACT in src/config/firm.ts. A channel with no
+ * number is omitted entirely, label included: a tel: href pointing at nothing
+ * is worse than an absent row, and a heading over empty space looks broken.
  *
  * Deep link formats:
  *   tel:      +9771XXXXXXX          international format, punctuation stripped
@@ -67,20 +66,16 @@ export function ContactChannels({ layout = 'stack', className }: ContactChannels
   if (layout === 'inline') {
     return (
       <ul className={['flex items-stretch', className].filter(Boolean).join(' ')}>
-        {CHANNELS.map((channel) => (
+        {/* Same rule as the stack layout: a channel with no number is left
+            out rather than rendered as a dead, unclickable label. */}
+        {CHANNELS.filter((channel) => channel.value).map((channel) => (
           <li key={channel.key} className="flex-1 border-l border-line first:border-l-0">
-            {channel.value ? (
-              <a
-                href={channel.href(channel.value)}
-                className="flex h-full min-h-12 items-center justify-center px-3 text-body-sm text-paper transition-colors duration-(--duration-hover) hover:text-brass"
-              >
-                {channel.label}
-              </a>
-            ) : (
-              <span className="flex h-full min-h-12 items-center justify-center px-3 font-mono text-label text-paper-3 uppercase">
-                {channel.label}
-              </span>
-            )}
+            <a
+              href={channel.href(channel.value as string)}
+              className="flex h-full min-h-12 items-center justify-center px-3 text-body-sm text-paper transition-colors duration-(--duration-hover) hover:text-brass"
+            >
+              {channel.label}
+            </a>
           </li>
         ))}
       </ul>
@@ -89,38 +84,35 @@ export function ContactChannels({ layout = 'stack', className }: ContactChannels
 
   return (
     <ul className={['space-y-4', className].filter(Boolean).join(' ')}>
-      {CHANNELS.map((channel) => (
+      {/* A channel with no number is omitted outright, label included. The
+          placeholder marker no longer renders in production, so keeping the
+          row would leave a heading standing over empty space. */}
+      {CHANNELS.filter((channel) => channel.value).map((channel) => (
         <li key={channel.key}>
           <Eyebrow as="div">{channel.label}</Eyebrow>
           <div className="mt-1">
-            {channel.value ? (
-              <a
-                href={channel.href(channel.value)}
-                className="font-mono text-data text-paper transition-colors duration-(--duration-hover) hover:text-brass"
-              >
-                {channel.value}
-              </a>
-            ) : (
-              <TodoClient>{channel.missing}</TodoClient>
-            )}
+            <a
+              href={channel.href(channel.value as string)}
+              className="font-mono text-data text-paper transition-colors duration-(--duration-hover) hover:text-brass"
+            >
+              {channel.value}
+            </a>
           </div>
         </li>
       ))}
-      <li>
-        <Eyebrow as="div">Email</Eyebrow>
-        <div className="mt-1">
-          {CONTACT.email ? (
+      {CONTACT.email && (
+        <li>
+          <Eyebrow as="div">Email</Eyebrow>
+          <div className="mt-1">
             <a
               href={`mailto:${CONTACT.email}`}
               className="font-mono text-data text-paper transition-colors duration-(--duration-hover) hover:text-brass"
             >
               {CONTACT.email}
             </a>
-          ) : (
-            <TodoClient>general email address</TodoClient>
-          )}
-        </div>
-      </li>
+          </div>
+        </li>
+      )}
     </ul>
   );
 }
@@ -131,23 +123,17 @@ export function ContactChannels({ layout = 'stack', className }: ContactChannels
  */
 export function OfficeAddress({ className }: { className?: string }) {
   const { address } = CONTACT;
-  const hasStreet = Boolean(address.line1);
 
   return (
     <address className={['not-italic', className].filter(Boolean).join(' ')}>
-      {hasStreet ? (
+      {/* The street line is optional: "Lalitpur-23, Nepal" is a complete and
+          usable address here, so its absence is not a gap to flag. */}
+      {address.line1 && (
         <span className="block text-body-sm text-paper-2">{address.line1}</span>
-      ) : (
-        <TodoClient>street address</TodoClient>
       )}
       {/* Nepali addresses are conventionally written "Lalitpur-23", city and
           ward as one token, so the ward is joined to the city rather than set
           on its own line. */}
-      {!address.ward && (
-        <span className="mt-1 block">
-          <TodoClient>ward number</TodoClient>
-        </span>
-      )}
       <span className="block text-body-sm text-paper-2">
         {address.city}
         {address.ward ? `–${address.ward.replace(/^Ward\s*/i, '')}` : ''}
