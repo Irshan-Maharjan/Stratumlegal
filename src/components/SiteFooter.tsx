@@ -5,12 +5,11 @@ import {
   FIRM_DESCRIPTOR,
   FIRM_LEGAL_NAME,
   FIRM_TRADING_NAME,
-  REGISTRATION,
 } from '@/config/firm';
 import { LogoMark, Wordmark } from './brand/Logo';
 import { NAV_ITEMS, SECONDARY_NAV_ITEMS } from '@/config/nav';
 import { ContactChannels, OfficeAddress } from './ContactChannels';
-import { Eyebrow, DataValue } from './Eyebrow';
+import { Eyebrow } from './Eyebrow';
 import { TodoClient } from './TodoClient';
 
 /**
@@ -97,33 +96,15 @@ export function SiteFooter() {
             </ul>
           </div>
 
-          {/* Registration */}
+          {/* Registered entity. The registration number and PAN are
+              deliberately not published — see the note on /about — so this
+              column carries the registered name alone. */}
           <div>
-            <Eyebrow as="div">Registration</Eyebrow>
+            <Eyebrow as="div">Registered entity</Eyebrow>
             <dl className="mt-4 space-y-3">
               <div>
                 <dt className="text-body-sm text-paper-3">Registered name</dt>
                 <dd className="mt-0.5 text-body-sm text-paper-2">{FIRM_LEGAL_NAME}</dd>
-              </div>
-              <div>
-                <dt className="text-body-sm text-paper-3">Company registration</dt>
-                <dd className="mt-0.5">
-                  {REGISTRATION.companyNumber ? (
-                    <DataValue className="text-paper-2">{REGISTRATION.companyNumber}</DataValue>
-                  ) : (
-                    <TodoClient>firm registration number</TodoClient>
-                  )}
-                </dd>
-              </div>
-              <div>
-                <dt className="text-body-sm text-paper-3">PAN</dt>
-                <dd className="mt-0.5">
-                  {REGISTRATION.pan ? (
-                    <DataValue className="text-paper-2">{REGISTRATION.pan}</DataValue>
-                  ) : (
-                    <TodoClient>PAN</TodoClient>
-                  )}
-                </dd>
               </div>
             </dl>
           </div>

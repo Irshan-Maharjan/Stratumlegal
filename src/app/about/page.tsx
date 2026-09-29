@@ -77,26 +77,10 @@ export default function AboutPage() {
               <dt className="text-body-sm text-paper-3">Trading name</dt>
               <dd className="mt-1 text-body-sm text-paper">{FIRM_TRADING_NAME}</dd>
             </div>
-            <div>
-              <dt className="text-body-sm text-paper-3">Company registration number</dt>
-              <dd className="mt-1">
-                {REGISTRATION.companyNumber ? (
-                  <DataValue className="text-paper">{REGISTRATION.companyNumber}</DataValue>
-                ) : (
-                  <TodoClient>firm registration number</TodoClient>
-                )}
-              </dd>
-            </div>
-            <div>
-              <dt className="text-body-sm text-paper-3">PAN</dt>
-              <dd className="mt-1">
-                {REGISTRATION.pan ? (
-                  <DataValue className="text-paper">{REGISTRATION.pan}</DataValue>
-                ) : (
-                  <TodoClient>PAN</TodoClient>
-                )}
-              </dd>
-            </div>
+            {/* Company registration number and PAN are deliberately not
+                published — the client asked for them to stay off the site.
+                They remain in REGISTRATION for anywhere they are genuinely
+                required (invoices, engagement letters), just not here. */}
             <div>
               <dt className="text-body-sm text-paper-3">Year established</dt>
               <dd className="mt-1">

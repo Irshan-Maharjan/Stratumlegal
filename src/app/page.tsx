@@ -3,27 +3,41 @@ import { Section } from '@/components/Section';
 import { Eyebrow } from '@/components/Eyebrow';
 import { PersonCard } from '@/components/PersonCard';
 import { PublicationCard } from '@/components/PublicationCard';
-import { ContactChannels, OfficeAddress } from '@/components/ContactChannels';
 import { TrustBand } from '@/components/TrustBand';
+import { ContactPanel } from '@/components/ContactPanel';
 import { Figure } from '@/components/media/Figure';
 import { Hero } from '@/components/motion/Hero';
 import { PinnedPractice } from '@/components/motion/PinnedPractice';
+import { StatuteMarquee } from '@/components/motion/StatuteMarquee';
 import { ScrollReveal } from '@/components/motion/ScrollReveal';
-import { CONTACT, FIRM_TRADING_NAME } from '@/config/firm';
-import { getPracticeArea, orderedPracticeAreas } from '@/content/practice-areas';
+import { FIRM_TRADING_NAME } from '@/config/firm';
+import {
+  allRegulatorNames,
+  allStatuteNames,
+  getPracticeArea,
+  orderedPracticeAreas,
+} from '@/content/practice-areas';
 import { PEOPLE } from '@/content/people';
 import { PUBLICATIONS } from '@/content/publications';
 
 /**
  * Home.
  *
- * Sequence: animated hero, pinned practice walk-through, reversed trust band,
- * the firm briefly, people, publications, contact.
+ * Every section is deliberately a different shape, so the page reads as a
+ * sequence rather than one repeating block:
  *
- * The motion here is doing a job, not decorating: the hero states who the
- * firm is while the mark draws, the pinned section makes a visitor read every
- * practice area instead of skimming, and the trust band is the one reversed
- * panel on the site, so it lands as a deliberate change of register.
+ *   hero          full-bleed, type-led, image right
+ *   practice      pinned; scrolling advances one area at a time
+ *   photograph    full-bleed band, parallax
+ *   trust         reversed panel, counters
+ *   firm          two columns, text beside image
+ *   people        grid
+ *   statute       full-bleed marquee, two rows drifting opposite ways
+ *   publications  numbered editorial index
+ *   contact       reversed panel, the phone number at display size
+ *
+ * The two reversed panels bracket the lower half of the page, and no two
+ * adjacent sections share a layout.
  *
  * No imagery of gavels, courthouses or handshakes, and no urgency language —
  * both read wrong to a general counsel, and the second is restricted under
@@ -34,6 +48,8 @@ export default function HomePage() {
   const areas = orderedPracticeAreas();
   const featuredPeople = PEOPLE.slice(0, 4);
   const recentPublications = PUBLICATIONS.slice(0, 3);
+  const statutes = allStatuteNames();
+  const regulators = allRegulatorNames();
 
   return (
     <>
@@ -141,9 +157,34 @@ export default function HomePage() {
         </Section>
       </ScrollReveal>
 
-      {/* Recent publications */}
+      {/* The instruments the firm works against. Two drifting rows of the
+          actual statutes and regulators recorded in the practice-area data —
+          specificity as the credibility argument, and a band of pure texture
+          between two text-heavy sections. */}
       <ScrollReveal>
-        <Section rhythm="md" index="04" railLabel="Reading">
+        <Section rhythm="md" index="04" railLabel="Statute">
+          <div className="max-w-(--container-measure)">
+            <Eyebrow tone="accent">The law we work in</Eyebrow>
+            <h2 className="mt-4 font-display text-h1">
+              Nepali statute, cited precisely.
+            </h2>
+            <p className="mt-6 text-body-lg text-paper-2">
+              Advice is only as good as the instrument it rests on. These are the
+              Acts and regulators our practice areas are actually built against.
+            </p>
+          </div>
+        </Section>
+        {/* Outside <Section>: the marquee is full-bleed, and the rail/measure
+            grid would box it back into the text column. */}
+        <div className="pb-(--spacing-section-md)">
+          <StatuteMarquee rows={[statutes, regulators]} />
+        </div>
+      </ScrollReveal>
+
+      {/* Recent publications — a numbered editorial index rather than cards,
+          so it reads as a journal contents page and not as a third grid. */}
+      <ScrollReveal>
+        <Section rhythm="md" index="05" railLabel="Reading">
           <div className="mb-2 flex flex-wrap items-baseline justify-between gap-4">
             <h2 className="font-display text-h1">Recent publications</h2>
             <Link
@@ -166,40 +207,10 @@ export default function HomePage() {
         </Section>
       </ScrollReveal>
 
-      {/* Contact */}
-      <ScrollReveal>
-        <Section rhythm="lg" index="05" railLabel="Contact">
-          <h2 className="font-display text-h1">Get in touch</h2>
-          <div className="mt-10 grid grid-cols-1 gap-12 lg:grid-cols-3">
-            <div>
-              <Eyebrow as="div">Office</Eyebrow>
-              <div className="mt-4">
-                <OfficeAddress />
-              </div>
-              {CONTACT.officeHours && (
-                <p className="mt-4 text-body-sm text-paper-3">{CONTACT.officeHours}</p>
-              )}
-            </div>
-            <div>
-              <Eyebrow as="div">Reach us directly</Eyebrow>
-              <ContactChannels className="mt-4" />
-            </div>
-            <div>
-              <Eyebrow as="div">Enquiry form</Eyebrow>
-              <p className="mt-4 max-w-(--container-measure) text-body-sm text-paper-2">
-                Prefer to write? The contact page has a short form for enquiries that are
-                easier to put in writing.
-              </p>
-              <Link
-                href="/contact"
-                className="mt-4 inline-block border border-line-hi px-5 py-2.5 text-body-sm text-paper transition-colors duration-(--duration-hover) hover:border-brass"
-              >
-                Go to contact
-              </Link>
-            </div>
-          </div>
-        </Section>
-      </ScrollReveal>
+      {/* Contact — reversed, so the page closes on ink the way the trust band
+          opened it, and the last thing on screen is a way to reach a partner
+          rather than another column of body copy. */}
+      <ContactPanel />
     </>
   );
 }

@@ -378,3 +378,19 @@ export const getPracticeArea = (slug: string): PracticeArea | undefined =>
 /** Sorted by the declared priority order rather than by array position. */
 export const orderedPracticeAreas = (): PracticeArea[] =>
   [...PRACTICE_AREAS].sort((a, b) => a.order - b.order);
+
+/**
+ * Every distinct statute named across the practice areas, and separately every
+ * distinct regulator. Deduplicated, since the same Act is cited by several
+ * areas, and sorted so the output is stable between builds rather than
+ * following declaration order.
+ *
+ * Used by the homepage to show the instruments the firm actually works
+ * against. Derived from the same data the practice pages render, so it cannot
+ * drift from them.
+ */
+export const allStatuteNames = (): string[] =>
+  [...new Set(PRACTICE_AREAS.flatMap((a) => a.statutes.map((s) => s.name)))].sort();
+
+export const allRegulatorNames = (): string[] =>
+  [...new Set(PRACTICE_AREAS.flatMap((a) => a.regulators.map((r) => r.name)))].sort();

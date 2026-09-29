@@ -29,10 +29,10 @@ export const REGISTRATION = {
 export const CONTACT = {
   address: {
     /** Street / tole. */
-    line1: null as string | null, // TODO(client): street address
+    line1: null as string | null, // TODO(client): street / tole
     /** Ward number, e.g. "Ward 11". */
-    ward: null as string | null, // TODO(client): ward number
-    city: 'Kathmandu',
+    ward: 'Ward 23',
+    city: 'Lalitpur',
     country: 'Nepal',
     postalCode: null as string | null, // TODO(client): postal code
   },
@@ -41,9 +41,9 @@ export const CONTACT = {
   /** Landline, in +977 international format. */
   phoneLandline: null as string | null, // TODO(client): landline
   /** Mobile, also used for the Viber deep link. */
-  phoneMobile: null as string | null, // TODO(client): mobile / Viber number
+  phoneMobile: '+977 984-541-1590',
   /** WhatsApp number in international format, digits only for the deep link. */
-  whatsapp: null as string | null, // TODO(client): WhatsApp number
+  whatsapp: null as string | null, // TODO(client): confirm if this line takes WhatsApp
   email: null as string | null, // TODO(client): general email
   /** Free text, e.g. "Sunday–Friday, 10:00–17:00". */
   officeHours: null as string | null, // TODO(client): office hours
