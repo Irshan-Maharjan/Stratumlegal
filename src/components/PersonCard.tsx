@@ -59,7 +59,7 @@ export function PersonCard({ person, areaTitles = [], headingLevel = 'h3' }: Per
         className="font-display text-h3 leading-tight text-paper"
         style={{ fontWeight: 500, letterSpacing: '-0.01em' }}
       >
-        {person.fullName ?? <TodoClient>lawyer full name</TodoClient>}
+        {person.fullName ?? <TodoClient>full name</TodoClient>}
       </Heading>
 
       {person.designation ? (
@@ -74,6 +74,14 @@ export function PersonCard({ person, areaTitles = [], headingLevel = 'h3' }: Per
 
       {areaTitles.length > 0 && (
         <p className="mt-3 text-body-sm text-paper-2">{areaTitles.join(' · ')}</p>
+      )}
+
+      {/* The direct number is often the only contact detail supplied, and in
+          this market it is the one people actually use. Rendered as plain
+          text here rather than a tel: link — the whole card is already a link
+          to the person's page, and nesting an anchor inside one is invalid. */}
+      {person.phone && (
+        <p className="mt-3 font-mono text-data text-paper-3">{person.phone}</p>
       )}
     </>
   );

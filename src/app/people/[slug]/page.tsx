@@ -8,7 +8,7 @@ import { Rule } from '@/components/Rule';
 import { TodoClient } from '@/components/TodoClient';
 import { PEOPLE, getPerson } from '@/content/people';
 import { getPracticeArea } from '@/content/practice-areas';
-import { FIRM_TRADING_NAME } from '@/config/firm';
+import { FIRM_TRADING_NAME, digitsOnly } from '@/config/firm';
 
 /**
  * /people/[slug] — the highest-value template on the site per the brief.
@@ -82,7 +82,7 @@ export default async function PersonPage({
               className="font-display text-display-2 leading-[1.05] text-paper"
               style={{ fontWeight: 800, letterSpacing: '-0.03em' }}
             >
-              {person.fullName ?? <TodoClient>lawyer full name</TodoClient>}
+              {person.fullName ?? <TodoClient>full name</TodoClient>}
             </h1>
 
             <div className="mt-3">
@@ -102,26 +102,46 @@ export default async function PersonPage({
             <Rule className="my-8" />
 
             <dl className="grid grid-cols-1 gap-x-8 gap-y-5 sm:grid-cols-2">
-              <div>
-                <dt className="text-body-sm text-paper-3">Nepal Bar Council licence</dt>
-                <dd className="mt-1">
-                  {person.licenceNumber ? (
-                    <DataValue className="text-paper">{person.licenceNumber}</DataValue>
-                  ) : (
-                    <TodoClient>Bar Council licence number</TodoClient>
-                  )}
-                </dd>
-              </div>
-              <div>
-                <dt className="text-body-sm text-paper-3">Years in practice</dt>
-                <dd className="mt-1">
-                  {person.calledYear ? (
-                    <DataValue className="text-paper">Since {person.calledYear}</DataValue>
-                  ) : (
-                    <TodoClient>year first called</TodoClient>
-                  )}
-                </dd>
-              </div>
+              {/* Licence and years in practice are asked only of practitioners
+                  — against a technical associate they would read as missing
+                  credentials rather than inapplicable ones. */}
+              {person.isLegalPractitioner && (
+                <>
+                  <div>
+                    <dt className="text-body-sm text-paper-3">Nepal Bar Council licence</dt>
+                    <dd className="mt-1">
+                      {person.licenceNumber ? (
+                        <DataValue className="text-paper">{person.licenceNumber}</DataValue>
+                      ) : (
+                        <TodoClient>Bar Council licence number</TodoClient>
+                      )}
+                    </dd>
+                  </div>
+                  <div>
+                    <dt className="text-body-sm text-paper-3">Years in practice</dt>
+                    <dd className="mt-1">
+                      {person.calledYear ? (
+                        <DataValue className="text-paper">Since {person.calledYear}</DataValue>
+                      ) : (
+                        <TodoClient>year first called</TodoClient>
+                      )}
+                    </dd>
+                  </div>
+                </>
+              )}
+              {person.phone && (
+                <div>
+                  <dt className="text-body-sm text-paper-3">Direct line</dt>
+                  <dd className="mt-1">
+                    <a
+                      href={`tel:${digitsOnly(person.phone)}`}
+                      className="text-body-sm text-paper underline decoration-line-hi underline-offset-4 transition-colors duration-(--duration-hover) hover:decoration-brass"
+                    >
+                      {person.phone}
+                    </a>
+                  </dd>
+                </div>
+              )}
               <div>
                 <dt className="text-body-sm text-paper-3">Languages</dt>
                 <dd className="mt-1 text-body-sm text-paper-2">

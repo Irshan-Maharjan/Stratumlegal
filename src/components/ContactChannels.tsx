@@ -35,11 +35,17 @@ type Channel = {
 
 const CHANNELS: Channel[] = [
   {
-    key: 'landline',
+    key: 'telephone',
     label: 'Telephone',
-    value: CONTACT.phoneLandline,
+    /**
+     * The mobile is the firm's working number; no landline has been supplied.
+     * Falling back to it means the primary "Telephone" row shows a number a
+     * client can actually ring, rather than a TODO marker sitting above a
+     * Viber row that displays the very number that is missing.
+     */
+    value: CONTACT.phoneLandline ?? CONTACT.phoneMobile,
     href: (v) => `tel:${digitsOnly(v)}`,
-    missing: 'landline number',
+    missing: 'telephone number',
   },
   {
     key: 'viber',
@@ -134,15 +140,17 @@ export function OfficeAddress({ className }: { className?: string }) {
       ) : (
         <TodoClient>street address</TodoClient>
       )}
-      {address.ward ? (
-        <span className="block text-body-sm text-paper-2">{address.ward}</span>
-      ) : (
+      {/* Nepali addresses are conventionally written "Lalitpur-23", city and
+          ward as one token, so the ward is joined to the city rather than set
+          on its own line. */}
+      {!address.ward && (
         <span className="mt-1 block">
           <TodoClient>ward number</TodoClient>
         </span>
       )}
       <span className="block text-body-sm text-paper-2">
         {address.city}
+        {address.ward ? `–${address.ward.replace(/^Ward\s*/i, '')}` : ''}
         {address.postalCode ? ` ${address.postalCode}` : ''}, {address.country}
       </span>
     </address>

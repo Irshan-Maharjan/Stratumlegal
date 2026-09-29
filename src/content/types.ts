@@ -37,10 +37,20 @@ export type Person = {
   /** TODO(client) until supplied — never invent a name. */
   fullName: string | null;
   designation: string | null;
-  /** Nepal Bar Council licence number. */
+  /**
+   * Whether this person practises law.
+   *
+   * The firm's team includes non-legal staff (technical and operational). A
+   * licence number, year called and practice areas are meaningless for them,
+   * and rendering empty "Licence — TODO" rows against a developer would read
+   * as missing credentials rather than inapplicable ones. Components use this
+   * to decide which fields to show at all.
+   */
+  isLegalPractitioner: boolean;
+  /** Nepal Bar Council licence number. Only meaningful for practitioners. */
   licenceNumber: string | null;
   education: { institution: string; qualification: string; year: string }[];
-  /** Year first called, e.g. "2015". */
+  /** Year first called, e.g. "2015". Practitioners only. */
   calledYear: string | null;
   /** Practice area slugs. */
   practiceAreas: string[];
@@ -48,6 +58,8 @@ export type Person = {
   sectors: string[];
   languages: string[];
   email: string | null;
+  /** Direct line, in the same format as CONTACT numbers in config/firm.ts. */
+  phone: string | null;
   /** Path under /public. Null renders the placeholder portrait frame. */
   photograph: string | null;
   /** 150-250 words on experience and specialisation. Never outcomes or achievements. */

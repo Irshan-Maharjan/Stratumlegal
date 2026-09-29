@@ -46,6 +46,7 @@ import { PUBLICATIONS } from '@/content/publications';
 
 export default function HomePage() {
   const areas = orderedPracticeAreas();
+  // The whole team, while it is small enough to show in full.
   const featuredPeople = PEOPLE.slice(0, 4);
   const recentPublications = PUBLICATIONS.slice(0, 3);
   const statutes = allStatuteNames();
@@ -142,7 +143,7 @@ export default function HomePage() {
               All people →
             </Link>
           </div>
-          <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
+          <div className="grid grid-cols-2 gap-6 md:grid-cols-3">
             {featuredPeople.map((person) => (
               <PersonCard
                 key={person.slug}

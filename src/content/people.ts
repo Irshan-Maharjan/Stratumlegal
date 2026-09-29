@@ -1,72 +1,69 @@
 import type { Person } from './types';
 
 /**
- * People. No lawyer names, credentials, education, or bios have been supplied
- * by the client, so every field below is null — which renders as a visible
- * TODO(client) marker per the compliance rules. Nothing here is invented.
+ * The team.
  *
- * Four placeholder slots exist so /people and the homepage's people section
- * have real routes and real layout to review, matching the brief's four-name
- * suggestion for the homepage. The client supplies real people; this file's
- * shape does not change when they do.
+ * Only what the client has actually supplied is recorded: name, designation
+ * and a direct number. Everything else stays null and renders as a visible
+ * TODO(client) marker. Nothing about a person's credentials is invented —
+ * that rule matters more here than anywhere else on the site, because
+ * misstating a lawyer's qualifications is a Bar Council problem, not a
+ * copywriting one.
+ *
+ * Still outstanding for every person: photograph, email, education, languages
+ * and bio. For Pranish, also the Bar Council licence number, year called and
+ * practice areas — see isLegalPractitioner in types.ts for why those are only
+ * asked of practitioners.
  */
 
 export const PEOPLE: Person[] = [
   {
-    slug: 'lawyer-one',
-    fullName: null,
-    designation: null,
-    licenceNumber: null,
-    education: [],
-    calledYear: null,
-    practiceAreas: ['foreign-direct-investment', 'corporate-commercial'],
+    slug: 'pranish-bhakta-uprety',
+    fullName: 'Pranish Bhakta Uprety',
+    designation: 'Managing Director',
+    isLegalPractitioner: true,
+    licenceNumber: null, // TODO(client): Nepal Bar Council licence number
+    education: [], // TODO(client): education
+    calledYear: null, // TODO(client): year first called
+    practiceAreas: [], // TODO(client): which practice areas he leads
     sectors: [],
-    languages: [],
-    email: null,
-    photograph: null,
-    bio: null,
+    languages: [], // TODO(client): languages
+    email: null, // TODO(client): email
+    phone: '+977 984-541-1590',
+    photograph: null, // TODO(client): portrait
+    bio: null, // TODO(client): bio
   },
   {
-    slug: 'lawyer-two',
-    fullName: null,
-    designation: null,
+    slug: 'irshan-maharjan',
+    fullName: 'Er. Irshan Maharjan',
+    designation: 'Digital Associate',
+    isLegalPractitioner: false,
     licenceNumber: null,
-    education: [],
+    education: [], // TODO(client): education
     calledYear: null,
-    practiceAreas: ['banking-finance', 'mergers-acquisitions'],
+    practiceAreas: [],
     sectors: [],
     languages: [],
-    email: null,
-    photograph: null,
-    bio: null,
+    email: null, // TODO(client): email
+    phone: '+977 984-428-9177',
+    photograph: null, // TODO(client): portrait
+    bio: null, // TODO(client): bio
   },
   {
-    slug: 'lawyer-three',
-    fullName: null,
-    designation: null,
+    slug: 'kabin-tiwari',
+    fullName: 'Er. Kabin Tiwari',
+    designation: 'Tech Associate',
+    isLegalPractitioner: false,
     licenceNumber: null,
-    education: [],
+    education: [], // TODO(client): education
     calledYear: null,
-    practiceAreas: ['energy-infrastructure', 'dispute-resolution-arbitration'],
+    practiceAreas: [],
     sectors: [],
     languages: [],
-    email: null,
-    photograph: null,
-    bio: null,
-  },
-  {
-    slug: 'lawyer-four',
-    fullName: null,
-    designation: null,
-    licenceNumber: null,
-    education: [],
-    calledYear: null,
-    practiceAreas: ['criminal-white-collar', 'employment-labour'],
-    sectors: [],
-    languages: [],
-    email: null,
-    photograph: null,
-    bio: null,
+    email: null, // TODO(client): email
+    phone: '+977 984-066-8256',
+    photograph: null, // TODO(client): portrait
+    bio: null, // TODO(client): bio
   },
 ];
 

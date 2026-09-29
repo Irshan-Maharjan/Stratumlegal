@@ -227,6 +227,7 @@ export default function PrimitivesPreview() {
                 slug: key,
                 fullName: null,
                 designation: null,
+                isLegalPractitioner: true,
                 licenceNumber: null,
                 education: [],
                 calledYear: null,
@@ -234,6 +235,7 @@ export default function PrimitivesPreview() {
                 sectors: [],
                 languages: [],
                 email: null,
+                phone: null,
                 photograph: null,
                 bio: null,
               }}

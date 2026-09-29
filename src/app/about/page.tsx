@@ -109,13 +109,13 @@ export default function AboutPage() {
         </div>
       </Section>
 
-      <Section rhythm="sm" index="04" railLabel="Licences">
+      <Section rhythm="sm" index="04" railLabel="Team">
         <h2 className="font-display text-h2 text-paper" style={{ letterSpacing: '-0.015em' }}>
-          Bar Council licences
+          The team
         </h2>
         <p className="mt-4 max-w-(--container-measure) text-body-sm text-paper-2">
-          Nepal Bar Council licence numbers of the lawyers practising at the firm. Full
-          profiles are at{' '}
+          Nepal Bar Council licence numbers for the lawyers practising at the firm,
+          and roles for everyone else. Full profiles are at{' '}
           <a
             href="/people"
             className="text-paper underline decoration-line-hi underline-offset-4 transition-colors duration-(--duration-hover) hover:decoration-brass"
@@ -132,13 +132,23 @@ export default function AboutPage() {
               className="flex flex-col gap-2 border-b border-line py-4 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4"
             >
               <span className="min-w-0 text-body-sm text-paper">
-                {person.fullName ?? <TodoClient>lawyer full name</TodoClient>}
+                {person.fullName ?? <TodoClient>full name</TodoClient>}
               </span>
+              {/* This table publishes licensing detail, so it only asks for a
+                  licence where one applies. Non-practitioners show their role
+                  instead — listing a developer with a missing Bar Council
+                  number would misrepresent the team. */}
               <span className="shrink-0">
-                {person.licenceNumber ? (
-                  <DataValue className="text-paper-2">{person.licenceNumber}</DataValue>
+                {person.isLegalPractitioner ? (
+                  person.licenceNumber ? (
+                    <DataValue className="text-paper-2">{person.licenceNumber}</DataValue>
+                  ) : (
+                    <TodoClient>licence number</TodoClient>
+                  )
                 ) : (
-                  <TodoClient>licence number</TodoClient>
+                  <span className="text-body-sm text-paper-3">
+                    {person.designation ?? 'Non-legal staff'}
+                  </span>
                 )}
               </span>
             </div>

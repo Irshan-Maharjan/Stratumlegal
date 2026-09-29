@@ -25,8 +25,8 @@ export default function PeoplePage() {
           The people
         </h1>
         <p className="mt-8 max-w-(--container-measure) font-display text-body-lg text-paper-2">
-          Nepali clients hire a lawyer, not a brand. Below are the lawyers practising
-          at the firm, their designations, and their areas of practice.
+          Nepali clients hire a person, not a brand. Below is everyone at the firm,
+          their designations, and — for those practising — their areas of practice.
         </p>
         <div className="mt-16">
           <Rule weight="hi" />
@@ -34,7 +34,7 @@ export default function PeoplePage() {
       </Section>
 
       <Section rhythm="lg" index="02" railLabel="Index">
-        <div className="grid grid-cols-2 gap-x-6 gap-y-14 md:grid-cols-4">
+        <div className="grid grid-cols-2 gap-x-6 gap-y-14 md:grid-cols-3">
           {PEOPLE.map((person) => (
             <PersonCard
               key={person.slug}
