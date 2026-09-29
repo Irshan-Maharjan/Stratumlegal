@@ -88,26 +88,76 @@ export function SiteHeader() {
         </Link>
 
         <nav aria-label="Primary" className="hidden items-center gap-7 lg:flex">
-          {NAV_ITEMS.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              aria-current={isActive(item.href) ? 'page' : undefined}
-              className={[
-                'relative py-1 text-body-sm transition-colors duration-(--duration-hover)',
-                isActive(item.href) ? 'text-paper' : 'text-paper-2 hover:text-paper',
-              ].join(' ')}
-            >
-              {item.label}
-              {isActive(item.href) && (
-                <span
-                  aria-hidden="true"
-                  className="absolute -bottom-0.5 left-0 h-px w-full"
-                  style={{ backgroundColor: 'var(--color-paper)' }}
-                />
-              )}
-            </Link>
-          ))}
+          {NAV_ITEMS.map((item) => {
+            const active = isActive(item.href);
+
+            const link = (
+              <Link
+                href={item.href}
+                aria-current={active ? 'page' : undefined}
+                className={[
+                  'relative py-1 text-body-sm transition-colors duration-(--duration-hover)',
+                  active ? 'text-paper' : 'text-paper-2 hover:text-paper',
+                ].join(' ')}
+              >
+                {item.label}
+                {active && (
+                  <span
+                    aria-hidden="true"
+                    className="absolute -bottom-0.5 left-0 h-px w-full"
+                    style={{ backgroundColor: 'var(--color-paper)' }}
+                  />
+                )}
+              </Link>
+            );
+
+            if (!item.children) {
+              return <div key={item.href}>{link}</div>;
+            }
+
+            /**
+             * The parent stays a real link to the index page, and the submenu
+             * opens on hover and on keyboard focus anywhere inside the group.
+             * focus-within is what makes it reachable by tab without needing a
+             * button that would otherwise swallow the link.
+             *
+             * The panel is always in the DOM and toggled with opacity and
+             * visibility rather than mounted on hover, so there is no flicker
+             * and the whole submenu is crawlable.
+             */
+            return (
+              <div key={item.href} className="group relative">
+                {link}
+                <div
+                  className={[
+                    'invisible absolute top-full left-1/2 z-50 -translate-x-1/2 pt-4 opacity-0',
+                    'transition-opacity duration-(--duration-hover)',
+                    'group-hover:visible group-hover:opacity-100',
+                    'group-focus-within:visible group-focus-within:opacity-100',
+                  ].join(' ')}
+                >
+                  <ul className="w-80 border border-line bg-ink-000 py-2 shadow-[0_18px_40px_-24px_rgba(0,0,0,0.5)]">
+                    {item.children.map((child) => (
+                      <li key={child.href}>
+                        <Link
+                          href={child.href}
+                          aria-current={pathname === child.href ? 'page' : undefined}
+                          className={[
+                            'block px-5 py-2.5 text-body-sm transition-colors duration-(--duration-hover)',
+                            pathname === child.href
+                              ? 'text-paper'
+                              : 'text-paper-2 hover:text-paper',
+                          ].join(' ')}
+                        >
+                          {child.label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            );
+          })}
         </nav>
 
         <div className="flex items-center gap-3">
@@ -153,6 +203,28 @@ export function SiteHeader() {
                 >
                   {item.label}
                 </Link>
+
+                {/* Sub-items are listed inline rather than behind a toggle:
+                    the panel scrolls anyway, and a disclosure here would add
+                    a tap between a visitor and the page they came for. */}
+                {item.children && (
+                  <ul className="border-t border-line pb-3 pl-4">
+                    {item.children.map((child) => (
+                      <li key={child.href}>
+                        <Link
+                          href={child.href}
+                          aria-current={pathname === child.href ? 'page' : undefined}
+                          className={[
+                            'block py-2.5 text-body-sm',
+                            pathname === child.href ? 'text-paper' : 'text-paper-3',
+                          ].join(' ')}
+                        >
+                          {child.label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </li>
             ))}
           </ul>

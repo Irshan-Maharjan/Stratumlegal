@@ -15,10 +15,13 @@ import { TodoClient } from './TodoClient';
 /**
  * <SiteFooter>
  *
- * Carries the compliance payload: the registered name, company registration
- * number, PAN, office address, and the Bar Council disclaimer. Published
- * registration detail is the strongest available trust signal in a market with
- * many unverifiable "law firms" online, and it is fully permitted.
+ * Carries the compliance payload: the registered name, office address and the
+ * Bar Council disclaimer. The registration number and PAN are deliberately
+ * not published — see the note on /about.
+ *
+ * The nav column renders NAV_ITEMS flat, ignoring the practice submenu: a
+ * footer listing ten practice areas under one heading would dwarf every other
+ * column, and the header menu already reaches them from every route.
  *
  * Brand mark: the full stacked lockup — the scales mark, the wordmark in
  * Playfair (with the crimson A), a rule, then LAW ASSOCIATES in spaced

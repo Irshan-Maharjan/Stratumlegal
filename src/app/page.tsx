@@ -7,7 +7,6 @@ import { TrustBand } from '@/components/TrustBand';
 import { ContactPanel } from '@/components/ContactPanel';
 import { Figure } from '@/components/media/Figure';
 import { Hero } from '@/components/motion/Hero';
-import { PinnedPractice } from '@/components/motion/PinnedPractice';
 import { StatuteMarquee } from '@/components/motion/StatuteMarquee';
 import { ScrollReveal } from '@/components/motion/ScrollReveal';
 import { FIRM_TRADING_NAME } from '@/config/firm';
@@ -15,7 +14,6 @@ import {
   allRegulatorNames,
   allStatuteNames,
   getPracticeArea,
-  orderedPracticeAreas,
 } from '@/content/practice-areas';
 import { PEOPLE } from '@/content/people';
 import { PUBLICATIONS } from '@/content/publications';
@@ -27,7 +25,6 @@ import { PUBLICATIONS } from '@/content/publications';
  * sequence rather than one repeating block:
  *
  *   hero          full-bleed, type-led, image right
- *   practice      pinned; scrolling advances one area at a time
  *   photograph    full-bleed band, parallax
  *   trust         reversed panel, counters
  *   firm          two columns, text beside image
@@ -39,13 +36,15 @@ import { PUBLICATIONS } from '@/content/publications';
  * The two reversed panels bracket the lower half of the page, and no two
  * adjacent sections share a layout.
  *
+ * Practice areas are deliberately not here. They live in the Practice menu,
+ * which reaches all ten from every route rather than only from this page.
+ *
  * No imagery of gavels, courthouses or handshakes, and no urgency language —
  * both read wrong to a general counsel, and the second is restricted under
  * Nepal Bar Council advertising rules.
  */
 
 export default function HomePage() {
-  const areas = orderedPracticeAreas();
   // The whole team, while it is small enough to show in full.
   const featuredPeople = PEOPLE.slice(0, 4);
   const recentPublications = PUBLICATIONS.slice(0, 3);
@@ -56,26 +55,10 @@ export default function HomePage() {
     <>
       <Hero />
 
-      {/* Practice — pinned on wide screens, a plain list everywhere else. */}
-      <section className="py-(--spacing-section-md)">
-        <div className="mx-auto mb-12 w-full max-w-(--container-shell) px-5 md:px-8">
-          <div className="flex flex-wrap items-baseline justify-between gap-4">
-            <div>
-              <Eyebrow tone="accent">What we do</Eyebrow>
-              <h2 className="mt-4 font-display text-h1">Practice areas</h2>
-            </div>
-            <Link
-              href="/practice"
-              className="text-body-sm text-paper-2 transition-colors duration-(--duration-hover) hover:text-paper"
-            >
-              All practice areas →
-            </Link>
-          </div>
-        </div>
-        <PinnedPractice
-          areas={areas.map((a) => ({ slug: a.slug, title: a.title, summary: a.summary }))}
-        />
-      </section>
+      {/* The practice-area walkthrough that used to sit here has moved into
+          the Practice menu, where each of the ten areas links straight to its
+          own page. It was the longest section on the page and repeated what
+          the nav now exposes on every route, not just this one. */}
 
       {/* A full-bleed band of rock strata, sitting immediately above the
           reversed panel so the page steps ground → photograph → ink rather
