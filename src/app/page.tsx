@@ -1,7 +1,8 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import { Section } from '@/components/Section';
 import { Eyebrow } from '@/components/Eyebrow';
-import { PersonCard } from '@/components/PersonCard';
+import { Rule } from '@/components/Rule';
 import { PublicationCard } from '@/components/PublicationCard';
 import { TrustBand } from '@/components/TrustBand';
 import { ContactPanel } from '@/components/ContactPanel';
@@ -46,7 +47,7 @@ import { PUBLICATIONS } from '@/content/publications';
 
 export default function HomePage() {
   // The whole team, while it is small enough to show in full.
-  const featuredPeople = PEOPLE.slice(0, 4);
+  const managingDirector = PEOPLE.find((p) => p.designation === 'Managing Director');
   const recentPublications = PUBLICATIONS.slice(0, 3);
   const statutes = allStatuteNames();
   const regulators = allRegulatorNames();
@@ -114,32 +115,81 @@ export default function HomePage() {
         </Section>
       </ScrollReveal>
 
-      {/* People */}
-      <ScrollReveal>
-        <Section rhythm="lg" index="03" railLabel="People">
-          <div className="mb-10 flex flex-wrap items-baseline justify-between gap-4">
-            <h2 className="font-display text-h1">People</h2>
-            <Link
-              href="/people"
-              className="text-body-sm text-paper-2 transition-colors duration-(--duration-hover) hover:text-paper"
-            >
-              All people →
-            </Link>
-          </div>
-          <div className="grid grid-cols-2 gap-6 md:grid-cols-3">
-            {featuredPeople.map((person) => (
-              <PersonCard
-                key={person.slug}
-                person={person}
-                areaTitles={person.practiceAreas
-                  .map((slug) => getPracticeArea(slug)?.title)
-                  .filter((t): t is string => Boolean(t))
-                  .slice(0, 1)}
-              />
-            ))}
-          </div>
-        </Section>
-      </ScrollReveal>
+      {/* People — the managing director alone.
+          The full team used to sit here as a grid of cards. On a firm this
+          size that read as a staff directory competing with /people, which
+          does the same job better. One person, one line of counsel, and a
+          link onward is a stronger claim than three cards. */}
+      {managingDirector && (
+        <ScrollReveal>
+          <Section rhythm="lg" index="03" railLabel="People">
+            <div className="grid gap-12 lg:grid-cols-12 lg:items-center lg:gap-16">
+              <div className="lg:col-span-5">
+                <Link href={`/people/${managingDirector.slug}`} className="group block">
+                  <div
+                    className="relative w-full overflow-hidden border border-line bg-ink-100"
+                    style={{ aspectRatio: '4 / 5', borderRadius: 'var(--radius-sm)' }}
+                  >
+                    {managingDirector.photograph && (
+                      <Image
+                        src={managingDirector.photograph}
+                        alt={managingDirector.fullName ?? ''}
+                        fill
+                        sizes="(max-width: 1024px) 100vw, 40vw"
+                        className="object-cover object-center grayscale transition-transform duration-(--duration-slow) group-hover:scale-[1.02]"
+                      />
+                    )}
+                  </div>
+                </Link>
+              </div>
+
+              <div className="lg:col-span-7">
+                <Eyebrow tone="accent">{managingDirector.designation}</Eyebrow>
+
+                {/* Pull quote. Attributed to the firm, not to a jurist — an
+                    invented quotation in a named lawyer's mouth is a
+                    misstatement, and this is a law firm's own page. */}
+                <blockquote className="mt-6">
+                  <p
+                    className="font-display text-h1 leading-[1.12] text-paper"
+                    style={{ fontWeight: 500, letterSpacing: '-0.02em' }}
+                  >
+                    &ldquo;The law rewards the side that prepared
+                    <span style={{ color: 'var(--color-brass)' }}> first</span>.&rdquo;
+                  </p>
+                </blockquote>
+
+                <div className="mt-8">
+                  <Rule weight="hi" />
+                </div>
+
+                <h2 className="mt-8 font-display text-h3 text-paper" style={{ fontWeight: 500 }}>
+                  {managingDirector.fullName}
+                </h2>
+                <p className="mt-3 max-w-(--container-measure) text-body-lg text-paper-2">
+                  Every file at {FIRM_TRADING_NAME} is led by one lawyer from first
+                  instruction to final order — no handover, no reassignment.
+                </p>
+
+                <div className="mt-8 flex flex-wrap gap-x-8 gap-y-3">
+                  <Link
+                    href={`/people/${managingDirector.slug}`}
+                    className="text-body-sm text-paper underline decoration-line-hi underline-offset-4 transition-colors duration-(--duration-hover) hover:decoration-brass"
+                  >
+                    Profile →
+                  </Link>
+                  <Link
+                    href="/people"
+                    className="text-body-sm text-paper-2 transition-colors duration-(--duration-hover) hover:text-paper"
+                  >
+                    The full team →
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </Section>
+        </ScrollReveal>
+      )}
 
       {/* The instruments the firm works against. Two drifting rows of the
           actual statutes and regulators recorded in the practice-area data —
